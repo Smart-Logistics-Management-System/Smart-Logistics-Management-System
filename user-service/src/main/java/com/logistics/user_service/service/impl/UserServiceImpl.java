@@ -1,5 +1,6 @@
 package com.logistics.user_service.service.impl;
 
+import com.logistics.user_service.exception.UserNotFoundException;
 import com.logistics.user_service.model.User;
 import com.logistics.user_service.repository.IUserRepository;
 import com.logistics.user_service.service.IUserService;
@@ -26,8 +27,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Cacheable(value = "user", key = "#id")
-    public Optional<User> findById(long id) {
-        return userRepository.findById(id);
+    public User findById(long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Kullanıcı bulunamadı! ID: " + id));
     }
 
     @Override

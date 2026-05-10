@@ -28,13 +28,7 @@ public class UserController  {
     }
     @GetMapping("/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id){
-        Optional<User> optionalUser = userService.findById(id);
-
-        if(optionalUser.isPresent()){
-            return ResponseEntity.ok(optionalUser.get());
-        }
-        else{
-            return  ResponseEntity.notFound().build();
-        }
+       User user = userService.findById(id);
+       return ResponseEntity.ok(user);
     }
 }
