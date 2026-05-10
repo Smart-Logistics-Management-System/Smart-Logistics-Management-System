@@ -17,7 +17,8 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public void save(User user) {
-
+        String sql = "INSERT INTO users(first_name ,last_name,email,role) VALUES(?,?,?,?) ";
+        jdbcTemplate.update(sql,user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole());
     }
 
     @Override
@@ -32,11 +33,13 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public void update(User user) {
-
+        jdbcTemplate.update(sqlUpdate,user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.getId());
     }
 
     @Override
     public void delete(Long id) {
-
-    }
+        String sqlDelete = "DELETE FROM users WHERE id = ?";
+        jdbcTemplate.update(sqlDelete ,id);
+    }  String sqlUpdate = "UPDATE users SET first_name=?,last_name=?,email=?,role=? WHERE id =?";
+      
 }
