@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Login Screen - Matches React: gradient bg, centered truck logo, email/password inputs, blue button -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login_gradient"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/spacing_xl"
+        android:paddingTop="@dimen/spacing_xxxl"
+        android:paddingBottom="@dimen/spacing_l">
+
+        <!-- ═══════════ LOGO SECTION ═══════════ -->
+        <!-- Blue-600 rounded-3xl box with truck icon -->
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_logo_rounded"
+            android:elevation="@dimen/elevation_l"
+            android:layout_marginBottom="@dimen/spacing_l">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_menu_send"
+                app:tint="@color/white" />
+        </FrameLayout>
+
+        <!-- App Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_title"
+            android:textColor="@color/gray_900"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:letterSpacing="-0.02" />
+
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_s"
+            android:text="@string/login_subtitle"
+            android:textColor="@color/gray_500"
+            android:textSize="@dimen/text_body" />
+
+        <!-- ═══════════ FORM SECTION ═══════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xxl"
+            android:orientation="vertical">
+
+            <!-- E-posta Input -->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:background="@drawable/bg_input_field"
+                android:elevation="@dimen/elevation_xs"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                android:paddingHorizontal="@dimen/spacing_m"
+                android:textColor="@color/gray_900"
+                android:textColorHint="@color/gray_400"
+                android:textSize="@dimen/text_body" />
+
+            <!-- Şifre Input -->
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:background="@drawable/bg_input_field"
+                android:elevation="@dimen/elevation_xs"
+                android:hint="@string/hint_password"
+                android:inputType="textPassword"
+                android:paddingHorizontal="@dimen/spacing_m"
+                android:textColor="@color/gray_900"
+                android:textColorHint="@color/gray_400"
+                android:textSize="@dimen/text_body" />
+
+            <!-- Giriş Yap Button -->
+            <FrameLayout
+                android:id="@+id/btnLoginContainer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:background="@drawable/bg_button_blue"
+                android:elevation="@dimen/elevation_m"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/btn_login"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_body_large"
+                    android:textStyle="bold" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <!-- ═══════════ SUPPORT TEXT ═══════════ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xl"
+            android:text="@string/login_support"
+            android:textColor="@color/gray_400"
+            android:textSize="@dimen/text_caption" />
+
+    </LinearLayout>
+</ScrollView>

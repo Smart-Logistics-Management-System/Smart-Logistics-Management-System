@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dashboard Screen - Matches React: greeting, 2-col stat cards, search bar, active packages list -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- ═══════════ HEADER with back border ═══════════ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/spacing_l"
+        android:paddingTop="@dimen/spacing_xxl"
+        android:paddingBottom="@dimen/spacing_m"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dashboard_title"
+            android:textColor="@color/gray_800"
+            android:textSize="@dimen/text_header"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ═══════════ CONTENT ═══════════ -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_l"
+            android:paddingBottom="80dp">
+
+            <!-- ─── User Greeting ─── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dashboard_greeting_prefix"
+                android:textColor="@color/gray_500"
+                android:textSize="@dimen/text_caption" />
+
+            <TextView
+                android:id="@+id/tvGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dashboard_greeting_name"
+                android:textColor="@color/gray_900"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold" />
+
+            <!-- ─── Stats Grid (2 columns) ─── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_l"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <!-- Blue stat card: Toplam Paket -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/spacing_s"
+                    android:background="@drawable/bg_stat_card_blue"
+                    android:elevation="@dimen/elevation_m"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_m">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_m"
+                        android:layout_height="@dimen/icon_m"
+                        android:layout_marginBottom="@dimen/spacing_s"
+                        android:alpha="0.8"
+                        android:src="@android:drawable/ic_menu_send"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.8"
+                        android:text="@string/stat_total_packages"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_xs" />
+                </LinearLayout>
+
+                <!-- Green stat card: Teslim Edildi -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_s"
+                    android:background="@drawable/bg_stat_card_green"
+                    android:elevation="@dimen/elevation_m"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_m">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_m"
+                        android:layout_height="@dimen/icon_m"
+                        android:layout_marginBottom="@dimen/spacing_s"
+                        android:alpha="0.8"
+                        android:src="@android:drawable/ic_menu_send"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.8"
+                        android:text="@string/stat_delivered"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_xs" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ─── Quick Search ─── -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_l"
+                android:background="@drawable/bg_search_bar">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/spacing_m">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="@dimen/spacing_m"
+                        android:src="@android:drawable/ic_menu_search"
+                        app:tint="@color/gray_400" />
+
+                    <EditText
+                        android:id="@+id/etSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/search_tracking_hint"
+                        android:textColorHint="@color/gray_400"
+                        android:textColor="@color/gray_900"
+                        android:textSize="@dimen/text_body"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- ─── Active Packages Section ─── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_l"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/active_packages"
+                    android:textColor="@color/gray_800"
+                    android:textSize="@dimen/text_body"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvViewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view_all"
+                    android:textColor="@color/blue_600"
+                    android:textSize="@dimen/text_caption"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- ─── Package Card 1 (In Transit) ─── -->
+            <LinearLayout
+                android:id="@+id/cardPackage1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:background="@drawable/bg_package_card"
+                android:elevation="@dimen/elevation_xs"
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_m"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <!-- Blue-50 rounded icon -->
+                <FrameLayout
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_icon_box_blue"
+                    android:layout_marginEnd="@dimen/spacing_m">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_m"
+                        android:layout_height="@dimen/icon_m"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_send"
+                        app:tint="@color/blue_600" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TRK9921"
+                        android:textColor="@color/gray_800"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="İstanbul · 12 May, 14:00"
+                        android:textColor="@color/gray_500"
+                        android:textSize="@dimen/text_xs" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@android:drawable/ic_media_play"
+                    app:tint="@color/gray_300" />
+            </LinearLayout>
+
+            <!-- ─── Package Card 2 (Pending) ─── -->
+            <LinearLayout
+                android:id="@+id/cardPackage2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:background="@drawable/bg_package_card"
+                android:elevation="@dimen/elevation_xs"
+                android:gravity="center_vertical"
+                android:padding="@dimen/spacing_m"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <FrameLayout
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_icon_box_blue"
+                    android:layout_marginEnd="@dimen/spacing_m">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_m"
+                        android:layout_height="@dimen/icon_m"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_send"
+                        app:tint="@color/blue_600" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TRK7734"
+                        android:textColor="@color/gray_800"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="İzmir · Tomorrow"
+                        android:textColor="@color/gray_500"
+                        android:textSize="@dimen/text_xs" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@android:drawable/ic_media_play"
+                    app:tint="@color/gray_300" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

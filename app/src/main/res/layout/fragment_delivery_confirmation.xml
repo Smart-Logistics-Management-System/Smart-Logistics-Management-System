@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Delivery Confirmation / QR Screen - Matches React: centered QR, warning card, dark button -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- ═══════════ HEADER ═══════════ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/spacing_l"
+        android:paddingTop="@dimen/spacing_xxl"
+        android:paddingBottom="@dimen/spacing_m"
+        android:background="@color/white">
+
+        <FrameLayout
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="@dimen/spacing_m"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="@dimen/icon_s"
+                android:layout_height="@dimen/icon_s"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_menu_revert"
+                app:tint="@color/gray_700" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delivery_title"
+            android:textColor="@color/gray_800"
+            android:textSize="@dimen/text_header"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ═══════════ CONTENT ═══════════ -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_l"
+            android:paddingTop="@dimen/spacing_xl"
+            android:paddingBottom="80dp">
+
+            <!-- ─── Title ─── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/qr_title"
+                android:textColor="@color/gray_900"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:gravity="center"
+                android:text="@string/qr_subtitle"
+                android:textColor="@color/gray_500"
+                android:textSize="@dimen/text_body"
+                android:lineSpacingMultiplier="1.4" />
+
+            <!-- ─── QR Code Container ─── -->
+            <FrameLayout
+                android:layout_width="256dp"
+                android:layout_height="256dp"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:background="@drawable/bg_qr_container"
+                android:padding="@dimen/spacing_xl">
+
+                <!-- QR placeholder icon -->
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:src="@android:drawable/ic_menu_gallery"
+                    app:tint="@color/gray_300" />
+            </FrameLayout>
+
+            <!-- ─── Warning Card ─── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:background="@drawable/bg_warning_card"
+                android:gravity="top"
+                android:padding="@dimen/spacing_m">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_s"
+                    android:layout_height="@dimen/icon_s"
+                    android:layout_marginEnd="@dimen/spacing_s"
+                    android:layout_marginTop="2dp"
+                    android:src="@android:drawable/ic_menu_recent_history"
+                    app:tint="@color/yellow_600" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/qr_warning"
+                    android:textColor="@color/yellow_700"
+                    android:textSize="@dimen/text_caption"
+                    android:lineSpacingMultiplier="1.3" />
+            </LinearLayout>
+
+            <!-- ─── Confirm Button (dark slate-900) ─── -->
+            <FrameLayout
+                android:id="@+id/btnComplete"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:background="@drawable/bg_button_dark"
+                android:elevation="@dimen/elevation_l"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/btn_send_confirmation"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_body_large"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

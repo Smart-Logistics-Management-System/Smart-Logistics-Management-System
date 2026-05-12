@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Profile Screen - Matches React: centered avatar, menu items with icons, logout button -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- ═══════════ HEADER ═══════════ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/spacing_l"
+        android:paddingTop="@dimen/spacing_xxl"
+        android:paddingBottom="@dimen/spacing_m"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_title"
+            android:textColor="@color/gray_800"
+            android:textSize="@dimen/text_header"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ═══════════ CONTENT ═══════════ -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_l"
+            android:paddingBottom="80dp">
+
+            <!-- ─── Avatar Section ─── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/spacing_xl">
+
+                <!-- Avatar with edit button -->
+                <FrameLayout
+                    android:layout_width="96dp"
+                    android:layout_height="96dp">
+
+                    <!-- Circle avatar -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_avatar_circle"
+                        android:elevation="@dimen/elevation_m">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            app:tint="@color/gray_400" />
+                    </FrameLayout>
+
+                    <!-- Edit button overlay (bottom-right) -->
+                    <FrameLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="bottom|end"
+                        android:background="@drawable/bg_avatar_edit_btn"
+                        android:elevation="@dimen/elevation_m">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_menu_preferences"
+                            app:tint="@color/white" />
+                    </FrameLayout>
+                </FrameLayout>
+
+                <!-- Name -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:text="@string/profile_name"
+                    android:textColor="@color/gray_900"
+                    android:textSize="@dimen/text_header"
+                    android:textStyle="bold" />
+
+                <!-- Role -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xxs"
+                    android:text="@string/profile_role"
+                    android:textColor="@color/gray_500"
+                    android:textSize="@dimen/text_caption" />
+            </LinearLayout>
+
+            <!-- ─── Menu Items ─── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Item 1: Hesap Ayarları -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_m"
+                    android:background="@drawable/bg_profile_menu_item"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_icon_box_blue"
+                        android:layout_marginEnd="@dimen/spacing_m">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_s"
+                            android:layout_height="@dimen/icon_s"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_menu_preferences"
+                            app:tint="@color/gray_600" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/menu_account_settings"
+                        android:textColor="@color/gray_700"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_media_play"
+                        app:tint="@color/gray_300" />
+                </LinearLayout>
+
+                <!-- Item 2: Bildirim Tercihleri (with red dot) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_m"
+                    android:background="@drawable/bg_profile_menu_item"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_icon_box_blue"
+                        android:layout_marginEnd="@dimen/spacing_m">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_s"
+                            android:layout_height="@dimen/icon_s"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_popup_reminder"
+                            app:tint="@color/gray_600" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/menu_notification_prefs"
+                        android:textColor="@color/gray_700"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <!-- Red dot alert -->
+                    <View
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/bg_timeline_dot_active" />
+                </LinearLayout>
+
+                <!-- Item 3: Adreslerim -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_m"
+                    android:background="@drawable/bg_profile_menu_item"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_icon_box_blue"
+                        android:layout_marginEnd="@dimen/spacing_m">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_s"
+                            android:layout_height="@dimen/icon_s"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            app:tint="@color/gray_600" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/menu_addresses"
+                        android:textColor="@color/gray_700"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_media_play"
+                        app:tint="@color/gray_300" />
+                </LinearLayout>
+
+                <!-- Item 4: Kendi QR Kodum -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/spacing_m"
+                    android:background="@drawable/bg_profile_menu_item"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_icon_box_blue"
+                        android:layout_marginEnd="@dimen/spacing_m">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_s"
+                            android:layout_height="@dimen/icon_s"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_menu_gallery"
+                            app:tint="@color/gray_600" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/menu_qr_code"
+                        android:textColor="@color/gray_700"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_media_play"
+                        app:tint="@color/gray_300" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ─── Logout Button ─── -->
+            <FrameLayout
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:background="@drawable/bg_logout_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_s"
+                        android:layout_height="@dimen/icon_s"
+                        android:layout_marginEnd="@dimen/spacing_s"
+                        android:src="@android:drawable/ic_lock_power_off"
+                        app:tint="@color/red_500" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/btn_logout"
+                        android:textColor="@color/red_500"
+                        android:textSize="@dimen/text_body"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Notification item for RecyclerView - Matches React notification card with bell icon and time badge -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_m"
+    android:background="@drawable/bg_notif_card"
+    android:elevation="@dimen/elevation_xs"
+    android:gravity="top"
+    android:padding="@dimen/spacing_m"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <!-- Blue-50 circle with bell icon -->
+    <FrameLayout
+        android:id="@+id/notifIconContainer"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_notif_icon_circle"
+        android:layout_marginEnd="@dimen/spacing_m">
+
+        <ImageView
+            android:id="@+id/notifIcon"
+            android:layout_width="@dimen/icon_s"
+            android:layout_height="@dimen/icon_s"
+            android:layout_gravity="center"
+            android:src="@android:drawable/ic_popup_reminder"
+            app:tint="@color/blue_600" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notifTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bildirim Başlığı"
+            android:textColor="@color/gray_800"
+            android:textSize="@dimen/text_caption"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/notifBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xxs"
+            android:text="Bildirim açıklaması burada yer alır."
+            android:textColor="@color/gray_500"
+            android:textSize="@dimen/text_xs"
+            android:lineSpacingMultiplier="1.3"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginBottom="@dimen/spacing_s" />
+
+        <!-- Time badge (slate-100 pill) -->
+        <TextView
+            android:id="@+id/notifTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_time_badge"
+            android:paddingHorizontal="@dimen/spacing_s"
+            android:paddingVertical="2dp"
+            android:text="5 dakika önce"
+            android:textColor="@color/gray_500"
+            android:textSize="@dimen/text_xs"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

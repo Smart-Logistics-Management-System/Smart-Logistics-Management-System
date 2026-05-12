@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Colors - Blue Primary + Emerald Accent (React design) -->
+    <color name="primary">#2563EB</color>
+    <color name="primary_dark">#1D4ED8</color>
+    <color name="primary_light">#DBEAFE</color>
+    <color name="primary_medium">#60A5FA</color>
+    <color name="accent">#10B981</color>
+    <color name="accent_dark">#059669</color>
+    <color name="accent_light">#D1FAE5</color>
+
+    <!-- Gradient Endpoints (blue to blue-dark) -->
+    <color name="gradient_start">#2563EB</color>
+    <color name="gradient_end">#1D4ED8</color>
+
+    <!-- Status Colors -->
+    <color name="status_delivered">#10B981</color>
+    <color name="status_delivered_bg">#D1FAE5</color>
+    <color name="status_transit">#2563EB</color>
+    <color name="status_transit_bg">#DBEAFE</color>
+    <color name="status_pending">#F59E0B</color>
+    <color name="status_pending_bg">#FEF3C7</color>
+    <color name="status_cancelled">#EF4444</color>
+    <color name="status_cancelled_bg">#FEE2E2</color>
+
+    <!-- Semantic -->
+    <color name="success">#10B981</color>
+    <color name="warning">#F59E0B</color>
+    <color name="error">#EF4444</color>
+    <color name="info">#3B82F6</color>
+
+    <!-- Neutral Scale (Slate from React design) -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#0F172A</color>
+    <color name="gray_50">#F8FAFC</color>
+    <color name="gray_100">#F1F5F9</color>
+    <color name="gray_200">#E2E8F0</color>
+    <color name="gray_300">#CBD5E1</color>
+    <color name="gray_400">#94A3B8</color>
+    <color name="gray_500">#64748B</color>
+    <color name="gray_600">#475569</color>
+    <color name="gray_700">#334155</color>
+    <color name="gray_800">#1E293B</color>
+    <color name="gray_900">#0F172A</color>
+
+    <!-- UI Surfaces -->
+    <color name="background">#F8FAFC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F1F5F9</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="overlay">#1A000000</color>
+
+    <!-- Blue gradient bg (from-blue-50 to-white) -->
+    <color name="blue_50">#EFF6FF</color>
+    <color name="blue_100">#DBEAFE</color>
+    <color name="blue_200">#BFDBFE</color>
+    <color name="blue_600">#2563EB</color>
+    <color name="blue_900">#1E3A5F</color>
+
+    <!-- Yellow warning card -->
+    <color name="yellow_50">#FEFCE8</color>
+    <color name="yellow_100">#FEF3C7</color>
+    <color name="yellow_600">#CA8A04</color>
+    <color name="yellow_700">#A16207</color>
+
+    <!-- Red for logout -->
+    <color name="red_50">#FEF2F2</color>
+    <color name="red_500">#EF4444</color>
+
+    <!-- Icon Tint Containers -->
+    <color name="icon_container_blue">#EFF6FF</color>
+    <color name="icon_container_green">#D1FAE5</color>
+    <color name="icon_container_amber">#FEF3C7</color>
+    <color name="icon_container_red">#FEE2E2</color>
+    <color name="icon_container_purple">#F3E8FF</color>
+
+    <!-- Slate dark bg for QR confirm screen -->
+    <color name="slate_900">#0F172A</color>
+    <color name="slate_100">#F1F5F9</color>
+    <color name="slate_200">#E2E8F0</color>
+</resources>

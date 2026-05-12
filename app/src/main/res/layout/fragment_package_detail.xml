@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Package Detail Screen - Matches React: hero with truck circle, timeline, action buttons -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- ═══════════ HEADER ═══════════ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/spacing_l"
+        android:paddingTop="@dimen/spacing_xxl"
+        android:paddingBottom="@dimen/spacing_m"
+        android:background="@color/white">
+
+        <FrameLayout
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="@dimen/spacing_m"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:layout_width="@dimen/icon_s"
+                android:layout_height="@dimen/icon_s"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_menu_revert"
+                app:tint="@color/gray_700" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/package_detail_title"
+            android:textColor="@color/gray_800"
+            android:textSize="@dimen/text_header"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ═══════════ CONTENT ═══════════ -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_l"
+            android:paddingBottom="80dp">
+
+            <!-- ─── Hero Section (blue-50 rounded-2rem) ─── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_detail_hero"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/spacing_l">
+
+                <!-- Blue circle with truck icon -->
+                <FrameLayout
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:background="@drawable/bg_detail_circle_blue"
+                    android:elevation="@dimen/elevation_l"
+                    android:layout_marginBottom="@dimen/spacing_m">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_send"
+                        app:tint="@color/white" />
+                </FrameLayout>
+
+                <!-- Package ID -->
+                <TextView
+                    android:id="@+id/tvPackageId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TRK9921"
+                    android:textColor="@color/blue_900"
+                    android:textSize="@dimen/text_header"
+                    android:textStyle="bold" />
+
+                <!-- Status -->
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="In Transit"
+                    android:textColor="@color/blue_600"
+                    android:textSize="@dimen/text_body"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- ─── Timeline Section ─── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:layout_marginBottom="@dimen/spacing_l"
+                android:text="@string/section_timeline"
+                android:textColor="@color/gray_800"
+                android:textSize="@dimen/text_body"
+                android:textStyle="bold" />
+
+            <!-- Timeline Items with dashed line -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/spacing_s">
+
+                <!-- Step 1: Teslim Alındı (done) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xl"
+                    android:gravity="top">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/spacing_l"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="@dimen/timeline_dot"
+                            android:layout_height="@dimen/timeline_dot"
+                            android:background="@drawable/bg_timeline_dot_active" />
+
+                        <View
+                            android:layout_width="@dimen/timeline_line_width"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:background="@color/gray_100" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_m"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/timeline_received"
+                            android:textColor="@color/gray_800"
+                            android:textSize="@dimen/text_body"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="11 May, 09:00"
+                            android:textColor="@color/gray_500"
+                            android:textSize="@dimen/text_xs" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Step 2: Transfer Merkezinde (done) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xl"
+                    android:gravity="top">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/spacing_l"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="@dimen/timeline_dot"
+                            android:layout_height="@dimen/timeline_dot"
+                            android:background="@drawable/bg_timeline_dot_active" />
+
+                        <View
+                            android:layout_width="@dimen/timeline_line_width"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:background="@color/gray_100" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_m"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/timeline_transfer"
+                            android:textColor="@color/gray_800"
+                            android:textSize="@dimen/text_body"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12 May, 11:30"
+                            android:textColor="@color/gray_500"
+                            android:textSize="@dimen/text_xs" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Step 3: Dağıtımda (not done) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_xl"
+                    android:gravity="top">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/spacing_l"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="@dimen/timeline_dot"
+                            android:layout_height="@dimen/timeline_dot"
+                            android:background="@drawable/bg_timeline_dot_inactive" />
+
+                        <View
+                            android:layout_width="@dimen/timeline_line_width"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:background="@color/gray_100" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_m"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/timeline_distribution"
+                            android:textColor="@color/gray_400"
+                            android:textSize="@dimen/text_body"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tahmini: 13 May"
+                            android:textColor="@color/gray_500"
+                            android:textSize="@dimen/text_xs" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Step 4: Varış Noktası (not done) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/spacing_l"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="@dimen/timeline_dot"
+                            android:layout_height="@dimen/timeline_dot"
+                            android:background="@drawable/bg_timeline_dot_inactive" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_m"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/timeline_destination"
+                            android:textColor="@color/gray_400"
+                            android:textSize="@dimen/text_body"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tahmini: 14 May"
+                            android:textColor="@color/gray_500"
+                            android:textSize="@dimen/text_xs" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ─── Action Buttons ─── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:orientation="vertical">
+
+                <!-- Teslimatı Onayla (blue-600) -->
+                <FrameLayout
+                    android:id="@+id/btnConfirmDelivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/bg_button_blue_rounded"
+                    android:elevation="@dimen/elevation_m"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_s"
+                            android:layout_height="@dimen/icon_s"
+                            android:layout_marginEnd="@dimen/spacing_s"
+                            android:src="@android:drawable/ic_menu_send"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btn_confirm_delivery"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_body_large"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- Haritada Gör (slate bg) -->
+                <FrameLayout
+                    android:id="@+id/btnViewMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginTop="@dimen/spacing_s"
+                    android:background="@drawable/bg_button_slate"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_s"
+                            android:layout_height="@dimen/icon_s"
+                            android:layout_marginEnd="@dimen/spacing_s"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            app:tint="@color/gray_700" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btn_view_map"
+                            android:textColor="@color/gray_700"
+                            android:textSize="@dimen/text_body_large"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

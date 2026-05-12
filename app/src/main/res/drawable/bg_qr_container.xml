@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- QR code container with dashed border feel -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/slate_100" />
+    <corners android:radius="@dimen/radius_xxl" />
+    <stroke android:width="4dp" android:color="@color/slate_200" />
+</shape>

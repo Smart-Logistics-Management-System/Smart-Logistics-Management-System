@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KargoTakip</string>
+
+    <!-- Login -->
+    <string name="login_title">KargoTakip</string>
+    <string name="login_subtitle">Lütfen hesabınıza giriş yapın</string>
+    <string name="hint_email">E-posta</string>
+    <string name="hint_username">Kullanıcı Adı</string>
+    <string name="hint_password">Şifre</string>
+    <string name="btn_login">Giriş Yap</string>
+    <string name="forgot_password">Şifremi Unuttum</string>
+    <string name="no_account">Hesabın yok mu? <b>Kayıt Ol</b></string>
+    <string name="login_support">Destek için 0850 000 00 00</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_greeting_prefix">Hoş geldin,</string>
+    <string name="dashboard_greeting_name">Furkan Demirci</string>
+    <string name="dashboard_greeting">Günaydın, Furkan 👋</string>
+    <string name="dashboard_subtitle">Bugün harika bir gün olacak!</string>
+    <string name="dashboard_packages_today">12 paket teslimat listesinde</string>
+    <string name="stat_total_packages">Toplam Paket</string>
+    <string name="stat_delivered">Teslim Edildi</string>
+    <string name="stat_pending">Bekleyen</string>
+    <string name="stat_in_transit">Yolda</string>
+    <string name="stat_cancelled">İptal</string>
+    <string name="quick_actions">Hızlı İşlemler</string>
+    <string name="recent_deliveries">Son Teslimatlar</string>
+    <string name="active_packages">Aktif Kargolarım</string>
+    <string name="action_scan">Barkod Tara</string>
+    <string name="action_new_package">Yeni Paket</string>
+    <string name="action_route">Rota Planla</string>
+    <string name="action_report">Rapor</string>
+    <string name="view_all">Tümünü Gör</string>
+    <string name="search_tracking_hint">Kargo Takip No…</string>
+
+    <!-- Package List -->
+    <string name="package_list_title">Paket Listesi</string>
+    <string name="search_hint">Paket ID, isim veya adres ara…</string>
+    <string name="filter_all">Hepsi</string>
+    <string name="filter_current">Mevcut</string>
+    <string name="filter_transit">Yolda</string>
+    <string name="filter_pending">Bekleyen</string>
+    <string name="filter_delivered">Tamamlanan</string>
+    <string name="filter_cancelled">İptal</string>
+
+    <!-- Package Detail -->
+    <string name="package_detail_title">Paket Detay</string>
+    <string name="section_receiver">Alıcı Bilgileri</string>
+    <string name="section_sender">Gönderici</string>
+    <string name="section_timeline">Paket Yolculuğu</string>
+    <string name="section_package_info">Paket Bilgisi</string>
+    <string name="btn_call_receiver">Alıcıyı Ara</string>
+    <string name="btn_navigate">Navigasyona Başla</string>
+    <string name="btn_confirm_delivery">Teslimatı Onayla</string>
+    <string name="btn_view_map">Haritada Gör</string>
+
+    <!-- Delivery Confirmation (QR Code Screen) -->
+    <string name="delivery_title">Teslimat Onay</string>
+    <string name="delivery_subtitle">Teslimatı tamamlamak için aşağıdaki bilgileri doldurun</string>
+    <string name="qr_title">QR Kod Okut</string>
+    <string name="qr_subtitle">Lütfen kuryenin cihazındaki veya paket üzerindeki QR kodu kameraya gösterin.</string>
+    <string name="qr_warning">Onay işlemi sonrasında teslimat statüsü kalıcı olarak değişecektir.</string>
+    <string name="btn_send_confirmation">Onay Mesajı Gönder</string>
+    <string name="hint_receiver_name">Teslim Alan Kişi</string>
+    <string name="hint_notes">Not (Opsiyonel)</string>
+    <string name="label_photo">Teslimat Fotoğrafı</string>
+    <string name="label_signature">İmza</string>
+    <string name="btn_take_photo">Fotoğraf Çek</string>
+    <string name="btn_complete">Teslimatı Tamamla</string>
+    <string name="signature_hint">Parmağınızla imzanızı atın</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profil</string>
+    <string name="profile_name">Furkan Demirci</string>
+    <string name="profile_role">Kurumsal Kullanıcı · 5.5k Puan</string>
+    <string name="menu_account_settings">Hesap Ayarları</string>
+    <string name="menu_notification_prefs">Bildirim Tercihleri</string>
+    <string name="menu_addresses">Adreslerim</string>
+    <string name="menu_qr_code">Kendi QR Kodum</string>
+    <string name="menu_personal">Kişisel Bilgiler</string>
+    <string name="menu_vehicle">Araç Bilgileri</string>
+    <string name="menu_settings">Uygulama Ayarları</string>
+    <string name="menu_help">Yardım ve Destek</string>
+    <string name="menu_about">Hakkında</string>
+    <string name="btn_logout">Çıkış Yap</string>
+
+    <!-- Notifications -->
+    <string name="notifications_title">Bildirimler</string>
+
+    <!-- Timeline steps -->
+    <string name="timeline_received">Teslim Alındı</string>
+    <string name="timeline_transfer">Transfer Merkezinde</string>
+    <string name="timeline_distribution">Dağıtımda</string>
+    <string name="timeline_destination">Varış Noktası</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
