@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link activity_login#newInstance} factory method to
+ * Use the {@link dashboard#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class activity_login extends Fragment {
+public class dashboard extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class activity_login extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public activity_login() {
+    public dashboard() {
         // Required empty public constructor
     }
 
@@ -34,11 +34,11 @@ public class activity_login extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment activity_login.
+     * @return A new instance of fragment dashboard.
      */
     // TODO: Rename and change types and number of parameters
-    public static activity_login newInstance(String param1, String param2) {
-        activity_login fragment = new activity_login();
+    public static dashboard newInstance(String param1, String param2) {
+        dashboard fragment = new dashboard();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +59,6 @@ public class activity_login extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_activity_login, container, false);
+        return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 }
