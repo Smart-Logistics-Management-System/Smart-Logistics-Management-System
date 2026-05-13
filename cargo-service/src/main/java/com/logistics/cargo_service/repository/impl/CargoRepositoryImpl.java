@@ -3,10 +3,15 @@ package com.logistics.cargo_service.repository.impl;
 import com.logistics.cargo_service.model.Cargo;
 import com.logistics.cargo_service.repository.ICargoRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.util.Optional;
 
 public class CargoRepositoryImpl implements ICargoRepository {
+    private static final String INSERT_CARGO =
+            "INSERT INTO cargo (tracking_number, sender_id, receiver_id, weight, status, current_location, estimated_delivery_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String FIND_BY_TRACKING =
+            "SELECT * FROM cargo WHERE tracking_number = ?";
     private final JdbcTemplate jdbcTemplate;
 
     public CargoRepositoryImpl(JdbcTemplate jdbcTemplate){
@@ -14,9 +19,7 @@ public class CargoRepositoryImpl implements ICargoRepository {
     }
     @Override
     public void save(Cargo cargo){
-        String sql = "INSERT INTO cargo (tracking_number, sender_id, receiver_id, weight, status, current_location, estimated_delivery_date) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
+        jdbcTemplate.update(INSERT_CARGO,
                 cargo.getTrackingNumber(),
                 cargo.getSenderId(),
                 cargo.getReceiverId(),
@@ -28,10 +31,9 @@ public class CargoRepositoryImpl implements ICargoRepository {
     }
     @Override
     public Optional<Cargo> findByTrackingNumber(String trackingNumber) {
-        String sql = "SELECT * FROM cargo WHERE tracking_number =?";
-        return jdbcTemplate.query(sql,cargoRowMapper,trackingNumber).stream().findFirst();
+        return jdbcTemplate.query(FIND_BY_TRACKING,cargoRowMapper,trackingNumber).stream().findFirst();
     }
-    private final org.springframework.jdbc.core.RowMapper<Cargo> cargoRowMapper = (rs, rowNum) -> {
+    private final RowMapper<Cargo> cargoRowMapper = (rs, rowNum) -> {
         Cargo cargo = new Cargo();
         cargo.setId(rs.getLong("id"));
         cargo.setTrackingNumber(rs.getString("tracking_number"));
