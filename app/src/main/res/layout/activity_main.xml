@@ -7,6 +7,7 @@
     android:background="@color/background">
 
     <!-- Content Frame -->
+
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
@@ -19,10 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_nav_height"
         android:background="@color/surface"
+        android:visibility="gone"
         app:elevation="@dimen/elevation_l"
         app:itemIconTint="@color/gray_400"
         app:itemActiveIndicatorStyle="@style/Widget.Material3.BottomNavigationView.ActiveIndicator"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </LinearLayout>
