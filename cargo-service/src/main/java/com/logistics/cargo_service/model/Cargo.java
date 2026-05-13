@@ -8,13 +8,13 @@ public class Cargo {
     private long senderId;
     private long receiverId;
     private double weight;
-    private String status;
+    private CargoStatus status;
     private String currentLocation;
     private LocalDateTime estimatedDeliveryDate;
 
     public Cargo(){}
 
-    public Cargo(long id , String trackingNumber , long senderId , long receiverId , double weight ,String status , String currentLocation , LocalDateTime estimatedDeliveryDate){
+    public Cargo(long id , String trackingNumber , long senderId , long receiverId , double weight ,CargoStatus status , String currentLocation , LocalDateTime estimatedDeliveryDate){
         this.id = id;
         this.trackingNumber = trackingNumber;
         this.senderId = senderId;
@@ -65,11 +65,11 @@ public class Cargo {
         this.weight = weight;
     }
 
-    public String getStatus() {
+    public CargoStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(CargoStatus status) {
         this.status = status;
     }
 
@@ -87,5 +87,14 @@ public class Cargo {
 
     public void setEstimatedDeliveryDate(LocalDateTime estimatedDeliveryDate) {
         this.estimatedDeliveryDate = estimatedDeliveryDate;
+    }
+    @Override
+    public String toString() {
+        return "Cargo{" +
+                "id=" + id +
+                ", trackingNumber='" + trackingNumber + '\'' +
+                ", status=" + status +
+                ", weight=" + weight +
+                '}';
     }
 }

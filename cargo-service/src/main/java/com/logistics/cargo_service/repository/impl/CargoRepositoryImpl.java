@@ -1,12 +1,14 @@
 package com.logistics.cargo_service.repository.impl;
 
 import com.logistics.cargo_service.model.Cargo;
+import com.logistics.cargo_service.model.CargoStatus;
 import com.logistics.cargo_service.repository.ICargoRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+@Repository
 public class CargoRepositoryImpl implements ICargoRepository {
     private static final String INSERT_CARGO =
             "INSERT INTO cargo (tracking_number, sender_id, receiver_id, weight, status, current_location, estimated_delivery_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -24,7 +26,7 @@ public class CargoRepositoryImpl implements ICargoRepository {
                 cargo.getSenderId(),
                 cargo.getReceiverId(),
                 cargo.getWeight(),
-                cargo.getStatus(),
+                cargo.getStatus().name(),
                 cargo.getCurrentLocation(),
                 cargo.getEstimatedDeliveryDate()
         );
@@ -40,7 +42,7 @@ public class CargoRepositoryImpl implements ICargoRepository {
         cargo.setSenderId(rs.getLong("sender_id"));
         cargo.setReceiverId(rs.getLong("receiver_id"));
         cargo.setWeight(rs.getDouble("weight"));
-        cargo.setStatus(rs.getString("status"));
+        cargo.setStatus(CargoStatus.valueOf(rs.getString("status")));
         cargo.setCurrentLocation(rs.getString("current_location"));
 
         java.sql.Timestamp deliveryDate = rs.getTimestamp("estimated_delivery_date");
