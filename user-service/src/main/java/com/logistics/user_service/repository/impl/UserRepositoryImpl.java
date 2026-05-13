@@ -18,8 +18,8 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public void save(User user) {
-        String sql = "INSERT INTO users(first_name ,last_name,email,role) VALUES(?,?,?,?) ";
-        jdbcTemplate.update(sql,user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole());
+        String sql = "INSERT INTO users(first_name ,last_name,email,password,role) VALUES(?,?,?,?) ";
+        jdbcTemplate.update(sql,user.getFirstName(),user.getLastName(),user.getEmail(),user.getPassword(),user.getRole());
     }
 
     @Override
@@ -37,8 +37,8 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public void update(User user) {
-        String sqlUpdate = "UPDATE users SET first_name=?,last_name=?,email=?,role=? WHERE id =?";
-        jdbcTemplate.update(sqlUpdate,user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.getId());
+        String sqlUpdate = "UPDATE users SET first_name=?,last_name=?,email=?,password=?,role=? WHERE id =?";
+        jdbcTemplate.update(sqlUpdate,user.getFirstName(),user.getLastName(),user.getEmail(),user.getPassword(),user.getRole(),user.getId());
     }
 
     @Override
@@ -53,6 +53,7 @@ public class UserRepositoryImpl implements IUserRepository {
         user.setFirstName(rs.getString("first_name"));
         user.setLastName(rs.getString("last_name"));
         user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
         user.setRole(rs.getString("role"));
         return user;
     };
