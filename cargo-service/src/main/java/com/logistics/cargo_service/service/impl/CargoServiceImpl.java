@@ -4,6 +4,8 @@ import com.logistics.cargo_service.model.Cargo;
 import com.logistics.cargo_service.model.CargoStatus;
 import com.logistics.cargo_service.repository.ICargoRepository;
 import com.logistics.cargo_service.service.ICargoService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,11 +20,13 @@ public class CargoServiceImpl implements ICargoService {
         this.iCargoRepository = iCargoRepository;
     }
     @Override
+    @Cacheable(value = "cargos", key = "#trackingNumber")
     public Optional<Cargo> getCargoByTrackingNumber(String trackingNumber) {
         return iCargoRepository.findByTrackingNumber(trackingNumber);
     }
 
     @Override
+    @CacheEvict(value = "cargos", allEntries = true)
     public Cargo createCargo(Cargo cargo){
         cargo.setTrackingNumber(UUID.randomUUID().toString());
         cargo.setStatus(CargoStatus.PENDING);

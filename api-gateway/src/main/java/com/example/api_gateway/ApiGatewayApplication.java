@@ -19,10 +19,10 @@ public class ApiGatewayApplication {
 		return builder.routes()
 
 				.route("user-service", r -> r.path("/api/users/**")
-						.uri("http://localhost:8081"))
+						.uri("http://user-service:8081"))
 
 				.route("cargo-service", r -> r.path("/api/cargo/**")
-						.uri("http://localhost:8082"))
+						.uri("http://cargo-service:8082"))
 
 				.build();
 	}

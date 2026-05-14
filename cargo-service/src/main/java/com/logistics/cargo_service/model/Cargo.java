@@ -1,8 +1,9 @@
 package com.logistics.cargo_service.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Cargo {
+public class Cargo implements Serializable {
     private long id ;
     private String trackingNumber;
     private long senderId;

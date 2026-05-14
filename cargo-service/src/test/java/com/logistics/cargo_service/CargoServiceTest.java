@@ -1,7 +1,14 @@
 package com.logistics.cargo_service;
 
 import com.logistics.cargo_service.model.Cargo;
+import com.logistics.cargo_service.repository.ICargoRepository;
+import com.logistics.cargo_service.service.impl.CargoServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 
 public class CargoServiceTest {
     @Mock

@@ -3,11 +3,17 @@ package com.logistics.cargo_service;
 import com.logistics.cargo_service.model.Cargo;
 import com.logistics.cargo_service.model.CargoStatus;
 import com.logistics.cargo_service.service.ICargoService;
+import org.junit.jupiter.api.MediaType;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -15,7 +21,7 @@ public class CargoControllerTest {
     @Autowired
     private MockMvc mockMvc; // Postman gibi HTTP istekleri atmamızı sağlar
 
-    @MockBean
+    @MockitoBean
     private ICargoService cargoService; // Servisimizi taklit (mock) ediyoruz
 
     @Test
@@ -43,11 +49,12 @@ public class CargoControllerTest {
 
         // 2 & 3. Act & Assert (Eylem ve Doğrulama)
         mockMvc.perform(post("/api/cargo")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                         .content(requestBody))
-                .andExpect(status().isCreated()) // HTTP 201 Created dönmesini bekliyoruz
-                .andExpect(jsonPath("$.trackingNumber").value("TR-998877")) // Dönen JSON'da takip no doğru mu?
-                .andExpect(jsonPath("$.status").value("PENDING")); // Dönen JSON'da status PENDING mi?
+                .andExpect(status().isCreated()) // Biz Controller'da .build() ile 201 döndüğümüz için Created bekliyoruz
+                .andExpect(jsonPath("$.trackingNumber").value("TR-998877"))
+                .andExpect(jsonPath("$.status").value("PENDING"));
     }
+
 
 }
