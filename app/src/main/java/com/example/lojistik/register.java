@@ -13,10 +13,23 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.lojistik.callback.ApiCallback;
+import com.example.lojistik.model.ApiResponse;
+import com.example.lojistik.model.RegisterRequest;
+import com.example.lojistik.repository.IUserRepository;
+import com.example.lojistik.repository.UserRepository;
 
 /**
- * Registration Fragment - handles user registration form and validation.
- * Sends registration data to the backend user-service API.
+ * Registration Fragment - handles user registration form, validation, and API call.
+ *
+ * Follows SRP: Only responsible for UI interaction and form validation.
+ * Delegates data operations to IUserRepository (DIP).
+ *
+ * Follows DIP (Dependency Inversion Principle):
+ * Depends on the IUserRepository interface, not the concrete UserRepository.
+ * This makes the fragment testable with mock repositories.
  */
 public class register extends Fragment {
 
@@ -24,6 +37,12 @@ public class register extends Fragment {
     private FrameLayout btnRegister;
     private TextView tvError, tvRegisterBtnText, tvGoToLogin;
     private ProgressBar pbLoading;
+
+    /**
+     * Repository for user operations.
+     * Declared as interface type (DIP) - can be swapped for testing.
+     */
+    private IUserRepository userRepository;
 
     public register() {
         // Required empty public constructor
@@ -34,11 +53,28 @@ public class register extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Initialize repository (can be replaced with DI framework later)
+        userRepository = new UserRepository();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
-        // Bind views
+        bindViews(view);
+        setupListeners();
+
+        return view;
+    }
+
+    /**
+     * Binds all UI views from the layout.
+     * Separated from onCreateView for readability (SRP at method level).
+     */
+    private void bindViews(View view) {
         etFirstName = view.findViewById(R.id.etFirstName);
         etLastName = view.findViewById(R.id.etLastName);
         etEmail = view.findViewById(R.id.etRegEmail);
@@ -49,7 +85,13 @@ public class register extends Fragment {
         tvRegisterBtnText = view.findViewById(R.id.tvRegisterBtnText);
         pbLoading = view.findViewById(R.id.pbRegisterLoading);
         tvGoToLogin = view.findViewById(R.id.tvGoToLogin);
+    }
 
+    /**
+     * Sets up all click listeners.
+     * Separated for clarity and maintainability.
+     */
+    private void setupListeners() {
         // Handle register button click
         btnRegister.setOnClickListener(v -> {
             if (validateForm()) {
@@ -63,8 +105,6 @@ public class register extends Fragment {
                 ((MainActivity) getActivity()).navigateToLogin();
             }
         });
-
-        return view;
     }
 
     /**
@@ -125,21 +165,48 @@ public class register extends Fragment {
     }
 
     /**
-     * Performs the registration API call.
-     * For now, navigates to login on success.
-     * TODO: Connect to actual backend API when available.
+     * Performs the actual registration via the repository.
+     * Creates an immutable RegisterRequest DTO and delegates to IUserRepository.
      */
     private void performRegistration() {
         setLoading(true);
+        hideError();
 
-        // For now, simulate a successful registration and go to login
-        // TODO: Replace with actual API call to user-service POST /api/users
-        btnRegister.postDelayed(() -> {
-            setLoading(false);
-            if (getActivity() instanceof MainActivity) {
-                ((MainActivity) getActivity()).navigateToLogin();
+        // Build immutable request DTO
+        RegisterRequest request = new RegisterRequest(
+                etFirstName.getText().toString().trim(),
+                etLastName.getText().toString().trim(),
+                etEmail.getText().toString().trim(),
+                etPassword.getText().toString().trim()
+        );
+
+        // Delegate to repository (DIP - using interface, not concrete class)
+        userRepository.register(request, new ApiCallback<Void>() {
+            @Override
+            public void onSuccess(ApiResponse<Void> response) {
+                setLoading(false);
+
+                // Show success message
+                if (getContext() != null) {
+                    Toast.makeText(getContext(),
+                            "Kayıt başarılı! Giriş yapabilirsiniz.",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                // Navigate to login screen
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).navigateToLogin();
+                }
             }
-        }, 1000);
+
+            @Override
+            public void onError(ApiResponse<Void> response) {
+                setLoading(false);
+                showError(response.getMessage() != null
+                        ? response.getMessage()
+                        : "Kayıt işlemi başarısız oldu");
+            }
+        });
     }
 
     /**
@@ -159,6 +226,7 @@ public class register extends Fragment {
 
     /**
      * Toggles loading state on the register button.
+     * Disables the button to prevent double-submit.
      */
     private void setLoading(boolean loading) {
         if (loading) {
