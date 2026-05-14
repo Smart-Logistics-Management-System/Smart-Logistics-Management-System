@@ -7,6 +7,7 @@ import com.logistics.cargo_service.service.ICargoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -15,6 +16,10 @@ public class CargoServiceImpl implements ICargoService {
 
     public CargoServiceImpl(ICargoRepository iCargoRepository){
         this.iCargoRepository = iCargoRepository;
+    }
+    @Override
+    public Optional<Cargo> getCargoByTrackingNumber(String trackingNumber) {
+        return iCargoRepository.findByTrackingNumber(trackingNumber);
     }
 
     @Override

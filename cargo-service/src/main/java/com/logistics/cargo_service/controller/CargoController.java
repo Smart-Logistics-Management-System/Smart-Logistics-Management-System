@@ -5,10 +5,7 @@ import com.logistics.cargo_service.model.Cargo;
 import com.logistics.cargo_service.service.ICargoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cargo")
@@ -27,5 +24,11 @@ public class CargoController {
 
         Cargo createdCargo = cargoService.createCargo(newCargo);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCargo);
+    }
+    @GetMapping("/{trackingNumber}")
+    public ResponseEntity<Cargo> trackCargo(@PathVariable String trackingNumber) {
+        return cargoService.getCargoByTrackingNumber(trackingNumber)
+                .map(cargo -> ResponseEntity.ok(cargo))
+                .orElse(ResponseEntity.notFound().build());
     }
 }

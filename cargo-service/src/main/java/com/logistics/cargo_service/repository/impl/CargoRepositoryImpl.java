@@ -5,31 +5,40 @@ import com.logistics.cargo_service.model.CargoStatus;
 import com.logistics.cargo_service.repository.ICargoRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 @Repository
 public class CargoRepositoryImpl implements ICargoRepository {
-    private static final String INSERT_CARGO =
-            "INSERT INTO cargo (tracking_number, sender_id, receiver_id, weight, status, current_location, estimated_delivery_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private final SimpleJdbcInsert simpleJdbcInsert;
     private static final String FIND_BY_TRACKING =
             "SELECT * FROM cargo WHERE tracking_number = ?";
     private final JdbcTemplate jdbcTemplate;
 
     public CargoRepositoryImpl(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("cargo")
+                .usingGeneratedKeyColumns("id");
     }
     @Override
-    public void save(Cargo cargo){
-        jdbcTemplate.update(INSERT_CARGO,
-                cargo.getTrackingNumber(),
-                cargo.getSenderId(),
-                cargo.getReceiverId(),
-                cargo.getWeight(),
-                cargo.getStatus().name(),
-                cargo.getCurrentLocation(),
-                cargo.getEstimatedDeliveryDate()
-        );
+    public void save(Cargo cargo) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("tracking_number", cargo.getTrackingNumber())
+                .addValue("sender_id", cargo.getSenderId())
+                .addValue("receiver_id", cargo.getReceiverId())
+                .addValue("weight", cargo.getWeight())
+                .addValue("status", cargo.getStatus().name())
+                .addValue("current_location", cargo.getCurrentLocation())
+                .addValue("estimated_delivery_date", cargo.getEstimatedDeliveryDate());
+
+        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
+
+        cargo.setId(newId.longValue());
     }
     @Override
     public Optional<Cargo> findByTrackingNumber(String trackingNumber) {

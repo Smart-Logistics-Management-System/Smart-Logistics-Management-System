@@ -18,7 +18,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public void save(User user) {
-        String sql = "INSERT INTO users(first_name ,last_name,email,password,role) VALUES(?,?,?,?) ";
+        String sql = "INSERT INTO users(first_name ,last_name,email,password,role) VALUES(?,?,?,?,?) ";
         jdbcTemplate.update(sql,user.getFirstName(),user.getLastName(),user.getEmail(),user.getPassword(),user.getRole());
     }
 
