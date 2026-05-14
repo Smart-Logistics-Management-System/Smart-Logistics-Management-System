@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         // Start with login fragment and hide bottom nav
         if (savedInstanceState == null) {
-            showLoginScreen()
+            logout()
         }
 
         // Setup bottom navigation item selection
@@ -56,9 +56,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Shows the login screen and hides the bottom navigation bar.
+     * Logs out the user, clears user data, and returns to the login screen.
+     * Called from the profile screen.
      */
-    private fun showLoginScreen() {
+    fun logout() {
         currentUser = null
         bottomNavigation.visibility = View.GONE
         supportFragmentManager.beginTransaction()
@@ -143,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             }
             else -> {
                 // If on any main screen, go back to login
-                showLoginScreen()
+                logout()
             }
         }
     }
