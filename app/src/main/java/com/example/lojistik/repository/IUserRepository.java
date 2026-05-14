@@ -1,7 +1,9 @@
 package com.example.lojistik.repository;
 
 import com.example.lojistik.callback.ApiCallback;
+import com.example.lojistik.model.LoginRequest;
 import com.example.lojistik.model.RegisterRequest;
+import com.example.lojistik.model.UserData;
 
 /**
  * Interface for user-related data operations.
@@ -23,4 +25,13 @@ public interface IUserRepository {
      * @param callback Callback for success/error handling
      */
     void register(RegisterRequest request, ApiCallback<Void> callback);
+
+    /**
+     * Authenticates a user with email and password.
+     * On success, returns UserData containing the user's profile info.
+     *
+     * @param request  The login credentials
+     * @param callback Callback delivering UserData on success
+     */
+    void login(LoginRequest request, ApiCallback<UserData> callback);
 }

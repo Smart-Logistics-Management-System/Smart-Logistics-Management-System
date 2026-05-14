@@ -22,6 +22,7 @@ public final class ApiConfig {
 
     // ─── User Service Endpoints ─────────────────────────────────
     public static final String USERS_ENDPOINT = "/api/users";
+    public static final String LOGIN_ENDPOINT = "/api/users/login";
 
     // ─── Timeouts (milliseconds) ────────────────────────────────
     public static final int CONNECT_TIMEOUT = 10_000;

@@ -5,11 +5,19 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
+import com.example.lojistik.model.UserData
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigation: BottomNavigationView
+
+    /**
+     * Holds the currently logged-in user's data.
+     * Accessible by fragments to display user-specific information.
+     */
+    var currentUser: UserData? = null
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +59,22 @@ class MainActivity : AppCompatActivity() {
      * Shows the login screen and hides the bottom navigation bar.
      */
     private fun showLoginScreen() {
+        currentUser = null
         bottomNavigation.visibility = View.GONE
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, login())
             .commit()
+    }
+
+    /**
+     * Called from LoginFragment after successful authentication.
+     * Stores user data and navigates to the main dashboard.
+     *
+     * @param userData The authenticated user's profile data
+     */
+    fun onLoginSuccess(userData: UserData?) {
+        currentUser = userData
+        navigateToMain()
     }
 
     /**

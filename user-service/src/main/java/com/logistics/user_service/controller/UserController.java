@@ -1,6 +1,7 @@
 package com.logistics.user_service.controller;
 
 import com.logistics.user_service.dto.CreateUserRequest;
+import com.logistics.user_service.dto.LoginRequest;
 import com.logistics.user_service.dto.UserResponse;
 import com.logistics.user_service.model.User;
 import com.logistics.user_service.service.IUserService;
@@ -34,6 +35,25 @@ public class UserController  {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        Optional<User> userOptional = userService.findByEmail(request.getEmail());
+
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"message\":\"Bu e-posta adresi kayıtlı değil\"}");
+        }
+
+        User user = userOptional.get();
+        if (!user.getPassword().equals(request.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("{\"message\":\"Şifre hatalı\"}");
+        }
+
+        return ResponseEntity.ok(mapToResponse(user));
+    }
+
     @GetMapping
     public ResponseEntity<List<UserResponse>> findAll() {
         List<UserResponse> safeUsers = userService.findAll().stream()

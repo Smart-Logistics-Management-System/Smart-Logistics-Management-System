@@ -5,9 +5,13 @@ import android.os.Looper;
 
 import com.example.lojistik.callback.ApiCallback;
 import com.example.lojistik.model.ApiResponse;
+import com.example.lojistik.model.LoginRequest;
 import com.example.lojistik.model.RegisterRequest;
+import com.example.lojistik.model.UserData;
 import com.example.lojistik.network.ApiConfig;
 import com.example.lojistik.network.HttpClient;
+
+import org.json.JSONObject;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -63,5 +67,49 @@ public class UserRepository implements IUserRepository {
                 }
             });
         });
+    }
+
+    @Override
+    public void login(LoginRequest request, ApiCallback<UserData> callback) {
+        executor.execute(() -> {
+            String url = ApiConfig.BASE_URL + ApiConfig.LOGIN_ENDPOINT;
+            String jsonBody = request.toJson();
+
+            ApiResponse<String> response = httpClient.postWithResponse(url, jsonBody);
+
+            mainHandler.post(() -> {
+                if (response.isSuccess() && response.getData() != null) {
+                    try {
+                        UserData userData = parseUserData(response.getData());
+                        callback.onSuccess(ApiResponse.success(userData, response.getStatusCode()));
+                    } catch (Exception e) {
+                        callback.onError(ApiResponse.error("Yanıt işlenirken hata oluştu"));
+                    }
+                } else {
+                    // Forward the error with its message
+                    callback.onError(ApiResponse.error(
+                            response.getMessage() != null ? response.getMessage() : "Giriş başarısız",
+                            response.getStatusCode()));
+                }
+            });
+        });
+    }
+
+    /**
+     * Parses the JSON response body into a UserData object.
+     * Uses Android's built-in JSONObject (no external dependency needed).
+     *
+     * @param jsonString The JSON response from login endpoint
+     * @return Parsed UserData object
+     */
+    private UserData parseUserData(String jsonString) throws Exception {
+        JSONObject json = new JSONObject(jsonString);
+        return new UserData(
+                json.getLong("id"),
+                json.getString("firstName"),
+                json.getString("lastName"),
+                json.getString("email"),
+                json.getString("role")
+        );
     }
 }

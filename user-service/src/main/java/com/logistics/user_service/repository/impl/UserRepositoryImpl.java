@@ -42,6 +42,12 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        return jdbcTemplate.query(sql, userRowMapper, email).stream().findFirst();
+    }
+
+    @Override
     public void delete(Long id) {
         String sqlDelete = "DELETE FROM users WHERE id = ?";
         jdbcTemplate.update(sqlDelete ,id);

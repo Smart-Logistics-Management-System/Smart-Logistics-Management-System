@@ -7,6 +7,7 @@ public interface IUserRepository {
     void save(User user);
     Optional<User> findById(long id);
     List<User> findAll();
+    Optional<User> findByEmail(String email);
     void update (User user);
     void delete(Long id);
 }

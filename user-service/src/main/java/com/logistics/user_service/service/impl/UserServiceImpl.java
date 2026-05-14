@@ -38,6 +38,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     @CacheEvict(value = "users", allEntries = true)
     public void update(User user) {
         userRepository.update(user);

@@ -89,6 +89,17 @@
                 android:textColorHint="@color/gray_400"
                 android:textSize="@dimen/text_body" />
 
+            <!-- Error Message -->
+            <TextView
+                android:id="@+id/tvLoginError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:textColor="@color/error"
+                android:textSize="@dimen/text_caption"
+                android:visibility="gone"
+                android:paddingHorizontal="@dimen/spacing_xs" />
+
             <!-- Giriş Yap Button -->
             <FrameLayout
                 android:id="@+id/btnLoginContainer"
@@ -102,6 +113,7 @@
                 android:foreground="?attr/selectableItemBackground">
 
                 <TextView
+                    android:id="@+id/tvLoginBtnText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -109,6 +121,15 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_body_large"
                     android:textStyle="bold" />
+
+                <!-- Loading indicator (hidden by default) -->
+                <ProgressBar
+                    android:id="@+id/pbLoginLoading"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/white" />
             </FrameLayout>
         </LinearLayout>
 
