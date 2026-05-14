@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Login Screen - Matches React: gradient bg, centered truck logo, email/password inputs, blue button -->
+<!-- Register Screen - Matches Login design: gradient bg, centered truck logo, registration form -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -10,10 +10,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/spacing_xl"
-        android:paddingTop="@dimen/spacing_xxxl"
+        android:paddingTop="@dimen/spacing_xxl"
         android:paddingBottom="@dimen/spacing_l">
 
         <!-- ═══════════ LOGO SECTION ═══════════ -->
@@ -34,11 +34,11 @@
                 app:tint="@color/white" />
         </FrameLayout>
 
-        <!-- App Name -->
+        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_title"
+            android:text="@string/register_title"
             android:textColor="@color/gray_900"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -49,22 +49,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_s"
-            android:text="@string/login_subtitle"
+            android:text="@string/register_subtitle"
             android:textColor="@color/gray_500"
-            android:textSize="@dimen/text_body" />
+            android:textSize="@dimen/text_body"
+            android:gravity="center" />
 
         <!-- ═══════════ FORM SECTION ═══════════ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_xxl"
+            android:layout_marginTop="@dimen/spacing_xl"
             android:orientation="vertical">
+
+            <!-- Ad Input -->
+            <EditText
+                android:id="@+id/etFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:background="@drawable/bg_input_field"
+                android:elevation="@dimen/elevation_xs"
+                android:hint="@string/hint_first_name"
+                android:inputType="textPersonName"
+                android:paddingHorizontal="@dimen/spacing_m"
+                android:textColor="@color/gray_900"
+                android:textColorHint="@color/gray_400"
+                android:textSize="@dimen/text_body" />
+
+            <!-- Soyad Input -->
+            <EditText
+                android:id="@+id/etLastName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:background="@drawable/bg_input_field"
+                android:elevation="@dimen/elevation_xs"
+                android:hint="@string/hint_last_name"
+                android:inputType="textPersonName"
+                android:paddingHorizontal="@dimen/spacing_m"
+                android:textColor="@color/gray_900"
+                android:textColorHint="@color/gray_400"
+                android:textSize="@dimen/text_body" />
 
             <!-- E-posta Input -->
             <EditText
-                android:id="@+id/etEmail"
+                android:id="@+id/etRegEmail"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_m"
                 android:background="@drawable/bg_input_field"
                 android:elevation="@dimen/elevation_xs"
                 android:hint="@string/hint_email"
@@ -76,7 +107,7 @@
 
             <!-- Şifre Input -->
             <EditText
-                android:id="@+id/etPassword"
+                android:id="@+id/etRegPassword"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/spacing_m"
@@ -89,9 +120,35 @@
                 android:textColorHint="@color/gray_400"
                 android:textSize="@dimen/text_body" />
 
-            <!-- Giriş Yap Button -->
+            <!-- Şifre Tekrar Input -->
+            <EditText
+                android:id="@+id/etRegPasswordConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:background="@drawable/bg_input_field"
+                android:elevation="@dimen/elevation_xs"
+                android:hint="@string/hint_password_confirm"
+                android:inputType="textPassword"
+                android:paddingHorizontal="@dimen/spacing_m"
+                android:textColor="@color/gray_900"
+                android:textColorHint="@color/gray_400"
+                android:textSize="@dimen/text_body" />
+
+            <!-- Error Message -->
+            <TextView
+                android:id="@+id/tvRegisterError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:textColor="@color/error"
+                android:textSize="@dimen/text_caption"
+                android:visibility="gone"
+                android:paddingHorizontal="@dimen/spacing_xs" />
+
+            <!-- Kayıt Ol Button -->
             <FrameLayout
-                android:id="@+id/btnLoginContainer"
+                android:id="@+id/btnRegisterContainer"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/spacing_m"
@@ -102,29 +159,39 @@
                 android:foreground="?attr/selectableItemBackground">
 
                 <TextView
+                    android:id="@+id/tvRegisterBtnText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/btn_login"
+                    android:text="@string/btn_register"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_body_large"
                     android:textStyle="bold" />
+
+                <!-- Loading indicator (hidden by default) -->
+                <ProgressBar
+                    android:id="@+id/pbRegisterLoading"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/white" />
             </FrameLayout>
         </LinearLayout>
 
-        <!-- ═══════════ REGISTER REDIRECT ═══════════ -->
+        <!-- ═══════════ LOGIN REDIRECT ═══════════ -->
         <TextView
-            android:id="@+id/tvGoToRegister"
+            android:id="@+id/tvGoToLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_xl"
-            android:text="@string/no_account"
+            android:text="@string/already_have_account"
             android:textColor="@color/gray_500"
             android:textSize="@dimen/text_body"
             android:clickable="true"
             android:focusable="true" />
 
-        <!-- ═══════════ SUPPORT TEXT ═══════════ -->
+        <!-- Support Text -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

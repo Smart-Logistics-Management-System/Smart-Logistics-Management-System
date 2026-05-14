@@ -71,6 +71,14 @@ public class login extends Fragment {
             }
         });
 
+        // Handle "Don't have an account? Register" click
+        View tvGoToRegister = view.findViewById(R.id.tvGoToRegister);
+        tvGoToRegister.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).navigateToRegister();
+            }
+        });
+
         return view;
     }
 }

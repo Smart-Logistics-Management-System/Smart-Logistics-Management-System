@@ -68,6 +68,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
+     * Navigates to the registration screen.
+     * Called from LoginFragment when user taps "Don't have an account? Register".
+     */
+    fun navigateToRegister() {
+        bottomNavigation.visibility = View.GONE
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out
+            )
+            .replace(R.id.fragmentContainer, register.newInstance())
+            .commit()
+    }
+
+    /**
+     * Navigates back to the login screen.
+     * Called from RegisterFragment when user taps "Already have an account? Login".
+     */
+    fun navigateToLogin() {
+        bottomNavigation.visibility = View.GONE
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out
+            )
+            .replace(R.id.fragmentContainer, login())
+            .commit()
+    }
+
+    /**
      * Loads a fragment into the container.
      */
     private fun loadFragment(fragment: Fragment) {
@@ -77,17 +107,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Handle back press: if on main screens, go back to login.
+     * Handle back press: navigate appropriately based on current screen.
      */
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-        if (currentFragment is login) {
-            // If on login screen, exit app
-            super.onBackPressed()
-        } else {
-            // If on any main screen, go back to login
-            showLoginScreen()
+        when (currentFragment) {
+            is login -> {
+                // If on login screen, exit app
+                super.onBackPressed()
+            }
+            is register -> {
+                // If on register screen, go back to login
+                navigateToLogin()
+            }
+            else -> {
+                // If on any main screen, go back to login
+                showLoginScreen()
+            }
         }
     }
 }

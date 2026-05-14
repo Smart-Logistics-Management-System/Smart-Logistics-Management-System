@@ -13,6 +13,15 @@
     <string name="no_account">Hesabın yok mu? <b>Kayıt Ol</b></string>
     <string name="login_support">Destek için 0850 000 00 00</string>
 
+    <!-- Register -->
+    <string name="register_title">Hesap Oluştur</string>
+    <string name="register_subtitle">Hemen ücretsiz hesabınızı oluşturun</string>
+    <string name="hint_first_name">Ad</string>
+    <string name="hint_last_name">Soyad</string>
+    <string name="hint_password_confirm">Şifre Tekrar</string>
+    <string name="btn_register">Kayıt Ol</string>
+    <string name="already_have_account">Zaten hesabın var mı? <b>Giriş Yap</b></string>
+
     <!-- Dashboard -->
     <string name="dashboard_title">Dashboard</string>
     <string name="dashboard_greeting_prefix">Hoş geldin,</string>
