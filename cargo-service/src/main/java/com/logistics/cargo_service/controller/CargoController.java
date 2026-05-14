@@ -1,5 +1,6 @@
 package com.logistics.cargo_service.controller;
 
+import com.logistics.cargo_service.dto.CreateCargoRequest;
 import com.logistics.cargo_service.model.Cargo;
 import com.logistics.cargo_service.service.ICargoService;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,13 @@ public class CargoController {
         this.cargoService = cargoService;
     }
     @PostMapping
-    public ResponseEntity<Cargo> createCargo(@RequestBody Cargo cargo){
-        Cargo createdCargo = cargoService.createCargo(cargo);
+    public ResponseEntity<Cargo> createCargo(@RequestBody CreateCargoRequest request){
+        Cargo newCargo = new Cargo();
+        newCargo.setSenderId(request.getSenderId());
+        newCargo.setReceiverId(request.getReceiverId());
+        newCargo.setWeight(request.getWeight());
+
+        Cargo createdCargo = cargoService.createCargo(newCargo);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCargo);
     }
 }
