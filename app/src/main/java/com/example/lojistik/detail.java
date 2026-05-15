@@ -58,7 +58,27 @@ public class detail extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        
+        android.widget.TextView tvPackageId = view.findViewById(R.id.tvPackageId);
+        android.widget.TextView tvStatus = view.findViewById(R.id.tvStatus);
+        View btnBack = view.findViewById(R.id.btnBack);
+        
+        if (mParam1 != null && tvPackageId != null) {
+            tvPackageId.setText(mParam1);
+        }
+        if (mParam2 != null && tvStatus != null) {
+            tvStatus.setText(mParam2);
+        }
+        
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                if (getActivity() != null) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            });
+        }
+        
+        return view;
     }
 }

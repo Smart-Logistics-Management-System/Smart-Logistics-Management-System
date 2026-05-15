@@ -58,7 +58,50 @@ public class list extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
+        
+        View card1 = view.findViewById(R.id.cardPackage1);
+        View card2 = view.findViewById(R.id.cardPackage2);
+        View card3 = view.findViewById(R.id.cardPackage3);
+        
+        android.view.View.OnClickListener listener = v -> {
+            if (getActivity() instanceof MainActivity) {
+                MainActivity mainActivity = (MainActivity) getActivity();
+                String trackingNumber = "";
+                String status = "";
+                
+                if (v.getId() == R.id.cardPackage1) {
+                    trackingNumber = "TRK9921";
+                    status = "IN TRANSIT";
+                } else if (v.getId() == R.id.cardPackage2) {
+                    trackingNumber = "TRK8812";
+                    status = "DELIVERED";
+                } else if (v.getId() == R.id.cardPackage3) {
+                    trackingNumber = "TRK7734";
+                    status = "PENDING";
+                }
+                
+                detail detailFragment = detail.newInstance(trackingNumber, status);
+                mainActivity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, detailFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        };
+        
+        if (card1 != null) card1.setOnClickListener(listener);
+        if (card2 != null) card2.setOnClickListener(listener);
+        if (card3 != null) card3.setOnClickListener(listener);
+        
+        View btnBack = view.findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                if (getActivity() != null) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            });
+        }
+        
+        return view;
     }
 }

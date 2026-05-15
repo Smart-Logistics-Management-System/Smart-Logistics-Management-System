@@ -156,6 +156,7 @@ public class dashboard extends Fragment {
             
             // Assuming API returns senderId, receiverId, weight, id
             long id = obj.optLong("id", 0);
+            String trackingNumber = obj.optString("trackingNumber", "TRK" + id);
             long senderId = obj.optLong("senderId", 0);
             long receiverId = obj.optLong("receiverId", 0);
             double weight = obj.optDouble("weight", 0.0);
@@ -163,7 +164,7 @@ public class dashboard extends Fragment {
 
             // Filter for only cargos assigned to current user
             if (currentUser != null && (receiverId == currentUser.getId() || senderId == currentUser.getId() || "ADMIN".equalsIgnoreCase(currentUser.getRole()))) {
-                cargos.add(new CargoData(id, senderId, receiverId, weight, status));
+                cargos.add(new CargoData(id, trackingNumber, senderId, receiverId, weight, status));
             }
         }
         return cargos;
@@ -259,6 +260,17 @@ public class dashboard extends Fragment {
         rightIcon.setColorFilter(Color.parseColor("#d1d5db"));
         LinearLayout.LayoutParams rightIconParams = new LinearLayout.LayoutParams(48, 48);
         card.addView(rightIcon, rightIconParams);
+
+        card.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                MainActivity mainActivity = (MainActivity) getActivity();
+                detail detailFragment = detail.newInstance(cargo.getTrackingNumber(), cargo.getStatus());
+                mainActivity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, detailFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         llActivePackages.addView(card);
     }

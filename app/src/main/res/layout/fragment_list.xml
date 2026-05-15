@@ -119,6 +119,7 @@
 
             <!-- ─── Package Card 1: In Transit ─── -->
             <LinearLayout
+                android:id="@+id/cardPackage1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_package_list_card"
@@ -218,6 +219,7 @@
 
             <!-- ─── Package Card 2: Delivered ─── -->
             <LinearLayout
+                android:id="@+id/cardPackage2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_package_list_card"
@@ -314,6 +316,7 @@
 
             <!-- ─── Package Card 3: Pending ─── -->
             <LinearLayout
+                android:id="@+id/cardPackage3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_package_list_card"
