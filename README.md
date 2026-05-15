@@ -1,149 +1,316 @@
-<div align="center">
+# 🚚 Akıllı Lojistik ve Kargo Yönetim Sistemi
+## Smart Logistics & Cargo Management Platform
 
-# 📦 Akıllı Lojistik ve Kargo Yönetim Sistemi 
-
-**TBL324 - İleri Java Uygulamaları Dersi Proje Raporu**  
-*Kocaeli Üniversitesi - Teknoloji Fakültesi - Bilişim Sistemleri Mühendisliği*
+> Mikroservis mimarisi ile geliştirilmiş, ölçeklenebilir, yüksek performanslı ve gerçek zamanlı kargo yönetim sistemi.
 
 ---
 
-### 👥 Hazırlayanlar
+# 👥 Proje Ekibi
 
-| Ad Soyad | Öğrenci Numarası | Rol / Katkı |
-| :--- | :--- | :--- |
-| **Furkan Demirci** | [Öğrenci Numaranı Gir] | Backend & Mobil Geliştirme, Mimari Tasarım |
-| **[Arkadaşının Adı Soyadı]** | [Öğrenci Numarası] | Performans Testleri, Veritabanı Optimizasyonu |
+| Ad Soyad | Öğrenci Numarası 
+|---|---|
+| Furkan Demirci | 231307061
+| Fatih Bilgin | 231307019
 
-</div>
+---
 
-<br>
+# 📘 Proje Hakkında
 
-## 📖 1. Projenin Tanıtımı ve Amacı
+Bu proje, **Kocaeli Üniversitesi Teknoloji Fakültesi** bünyesinde verilen **TBL324 - İleri Java Uygulamaları** dersi kapsamında geliştirilmiştir.
 
-Bu proje, modern yazılım mühendisliği prensipleri gözetilerek tasarlanmış kapsamlı bir **Lojistik Yönetim Sistemidir**. Projenin temel amacı; kargo süreçlerinin (oluşturma, atama, teslimat ve iptal) dijital ortamda, yüksek erişilebilirlik ve performansla yönetilmesini sağlamaktır. 
+Sistem; kullanıcı yönetimi, kargo oluşturma, gönderi takibi, gerçek zamanlı durum güncellemeleri ve mobil erişim süreçlerini kapsayan modern bir lojistik otomasyon platformudur.
 
-Geleneksel (monolitik) sistemlerin aksine, proje **Mikroservis Mimarisi** üzerine inşa edilmiş olup servislerin bağımsız ölçeklenebilmesine olanak tanır. Kullanıcılara (Admin, Kurye, Müşteri) **Material 3** standartlarında, premium ve dinamik bir **Android Mobil Uygulama (GUI)** ile hizmet verilmektedir.
+Proje mimarisi tamamen **mikroservis yaklaşımı** ile tasarlanmış olup servisler birbirinden bağımsız çalışacak şekilde geliştirilmiştir. Sistem, yüksek erişilebilirlik ve ölçeklenebilirlik hedeflenerek Docker ortamında çalıştırılmaktadır.
 
-## 🏗️ 2. Sistem Mimarisi ve Teknik Altyapı
+---
 
-Sistem, iş mantığını bölen ve birbirleriyle tamamen izole çalışan **User Service** ve **Cargo Service** olmak üzere iki temel mikroservisten oluşmaktadır. Veri güvenliği ve performansı artırmak adına, her servisin kendi veritabanı bulunmakta olup sık erişilen kargo durumları için **NoSQL (Redis)** önbellekleme katmanı kullanılmıştır.
+# 🎯 Proje Amaçları
 
-Aşağıdaki **Mermaid** diyagramında, projenin kaynak kodlarına birebir uygun olan güncel mimarisi modellenmiştir. Uygulama, her bir servise özel bir `HttpClient` üzerinden direkt erişim sağlamakta ve servisler verilerini bağımsız veritabanlarında tutmaktadır:
+- Mikroservis mimarisi kullanarak modüler yapı oluşturmak
+- REST API tabanlı servis haberleşmesi sağlamak
+- Android mobil istemci geliştirmek
+- PostgreSQL ve Redis entegrasyonu gerçekleştirmek
+- Docker ile konteyner tabanlı dağıtım yapmak
+- k6 / JMeter ile performans testi uygulamak
+- GitHub üzerinde teknik dokümantasyon ve Mermaid diyagramları kullanmak
+
+---
+
+# 🏗️ Sistem Mimarisi
 
 ```mermaid
-flowchart TB
-    %% İstemci Katmanı
-    subgraph ClientLayer ["📱 İstemci Katmanı"]
-        AndroidApp["Android Mobil Uygulama<br>(Java + Material 3)"]
-        HttpClient["HttpClient<br>(Ağ İstekleri)"]
-        AndroidApp -->|İstekler| HttpClient
-    end
+flowchart LR
 
-    %% Mikroservisler
-    subgraph Microservices ["⚙️ Mikroservis Katmanı (Spring Boot)"]
-        UserService["👤 User Service<br>Port: 8081<br>(Auth & Kullanıcı Yönetimi)"]
-        CargoService["📦 Cargo Service<br>Port: 8082<br>(Kargo & Durum Takibi)"]
-    end
+A[📱 Android Mobil Uygulama]
+--> B[🌐 API Gateway]
 
-    %% Veritabanı ve Cache Katmanı
-    subgraph DataLayer ["🗄️ Veri ve Önbellek Katmanı (Docker)"]
-        UserDB[("🐘 PostgreSQL<br>(users_db)")]
-        CargoDB[("🐘 PostgreSQL<br>(cargos_db)")]
-        RedisCache[("⚡ Redis<br>(@Cacheable)")]
-    end
+subgraph MICROSERVICES [⚙️ Mikroservis Katmanı]
 
-    %% İstek İlişkileri
-    HttpClient == "POST /api/users/login\nDELETE /api/users/{id}" ==> UserService
-    HttpClient == "GET /api/cargo\nPOST /api/cargo/status-update" ==> CargoService
+C[👤 User Service]
+D[📦 Cargo Service]
 
-    %% Veritabanı İlişkileri
-    UserService -->|"Kullanıcı Verileri (JPA/Hibernate)"| UserDB
-    CargoService -->|"Kargo Verileri (JPA/Hibernate)"| CargoDB
-    
-    %% Cache İlişkileri
-    UserService -.->|"Önbellek (Kullanıcılar)"| RedisCache
-    CargoService -.->|"Önbellek (Kargo Takibi)"| RedisCache
+end
 
-    %% Tema ve Stiller
-    classDef client fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
-    classDef service fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000
-    classDef db fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px,color:#000
-    classDef cache fill:#ffe0b2,stroke:#ef6c00,stroke-width:2px,color:#000
-    
-    class AndroidApp,HttpClient client
-    class UserService,CargoService service
-    class UserDB,CargoDB db
-    class RedisCache cache
+subgraph DATABASES [🗄️ Veri Katmanı]
+
+E[(PostgreSQL\nUsers DB)]
+F[(PostgreSQL\nCargo DB)]
+G[(Redis Cache\nTracking Data)]
+
+end
+
+B --> C
+B --> D
+
+C --> E
+D --> F
+D --> G
 ```
 
-### Tasarım Kararları (Design Patterns & SOLID)
-*   **Tek Sorumluluk Prensibi (SRP):** Controller, Service ve Repository katmanları kesin çizgilerle ayrılmıştır.
-*   **Açık/Kapalı Prensibi (OCP):** Android `HttpClient` sınıfı, mevcut kodu bozmadan yeni HTTP metotlarına (PUT, DELETE) genişletilebilir şekilde tasarlanmıştır.
-*   **Veri Transfer Objeleri (DTO):** İstemci ile sunucu arasında hassas verilerin taşınmasını önlemek için generic `ApiResponse<T>` ve DTO'lar kullanılmıştır.
-*   **Bağımsız Veritabanları (Database per Service):** User ve Cargo servislerinin veritabanları mimari gereği birbirinden ayrılmıştır.
+---
 
-## 📸 3. Uygulama Ekran Görüntüleri
+# 🔄 Mikroservis İletişim Yapısı
 
-Projemizin kullanıcı arayüzüne ait ekran görüntülerini aşağıda inceleyebilirsiniz:
+```mermaid
+sequenceDiagram
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center"><b>Giriş Ekranı</b></td>
-      <td align="center"><b>Dashboard (Ana Sayfa)</b></td>
-      <td align="center"><b>Kargo Detay ve Onay</b></td>
-      <td align="center"><b>Profil Yönetimi</b></td>
-    </tr>
-    <tr>
-      <td><img src="gorsel_linkini_buraya_koyun.png" alt="Giriş Ekranı" width="200"/></td>
-      <td><img src="gorsel_linkini_buraya_koyun.png" alt="Dashboard" width="200"/></td>
-      <td><img src="gorsel_linkini_buraya_koyun.png" alt="Kargo Detay" width="200"/></td>
-      <td><img src="gorsel_linkini_buraya_koyun.png" alt="Profil Yönetimi" width="200"/></td>
-    </tr>
-  </table>
-</div>
+actor User as Mobil Kullanıcı
 
-## 📊 4. Performans Testleri (k6 Yük Testi Raporu)
+participant App as Android App
+participant Gateway as API Gateway
+participant UserService as User Service
+participant CargoService as Cargo Service
+participant Redis as Redis Cache
+participant DB as PostgreSQL
 
-Sistemin dayanıklılığını ölçmek amacıyla, modern performans testi araçlarından **Grafana k6** kullanılarak eşzamanlı **50 Sanal Kullanıcı (VUs)** ile yük testi (Load Testing) senaryoları koşulmuştur. Test kapsamında *Kullanıcı Girişi*, *Kargo Listeleme* ve *Durum Güncelleme* işlemleri yoğun trafik altında simüle edilmiştir.
+User->>App: Giriş Yap
+App->>Gateway: Login Request
+Gateway->>UserService: Authentication
+UserService->>DB: Kullanıcı Kontrolü
+DB-->>UserService: Kullanıcı Bilgisi
+UserService-->>Gateway: Token
+Gateway-->>App: Başarılı Giriş
 
-**Test Senaryosu (Ramping-up):**
-1. 10 saniye içinde 0'dan 20 kullanıcıya çıkış.
-2. 30 saniye boyunca 50 aktif kullanıcı ile tam yük (Full Load).
-3. Son 10 saniye içinde yükün sıfırlanması.
+User->>App: Kargo Oluştur
+App->>Gateway: Cargo Request
+Gateway->>CargoService: Cargo Data
+CargoService->>DB: Kargo Kaydı
+CargoService->>Redis: Tracking Cache
+CargoService-->>Gateway: Cargo Response
+Gateway-->>App: Başarılı İşlem
+```
 
-### 📈 Test Sonuçları Özeti
+---
 
-| Metrik | Beklenen Eşik Değeri | Elde Edilen Değer | Sonuç |
-| :--- | :--- | :--- | :--- |
-| **Toplam İstek (Total Requests)** | - | 1464 İstek | Başarılı |
-| **Saniye Başına İstek (RPS)** | > 20 req/s | **28.00 req/s** | ✅ Eşiği Aştı |
-| **Maksimum Yanıt Süresi (Max)** | < 1000ms | 641.02 ms | ✅ Normal Sınırlarda |
-| **P(95) Yanıt Süresi*** | **< 500ms** | **4.64 ms** | 🚀 **Mükemmel** |
-| **Hata Oranı (Backend Hataları)** | %0 | %0 | ✅ İstikrarlı |
+# 🧩 Kullanılan Teknolojiler
 
-> ***P(95) Yanıt Süresi:** İsteklerin %95'inin **4.64 milisaniyenin** altında tamamlandığını göstermektedir. Sistem, beklenenin çok ötesinde bir yüksek ölçeklenebilirlik (scalability) performansı sergilemiştir.*
+| Katman | Teknoloji |
+|---|---|
+| Backend | Java 21, Spring Boot |
+| Mobil | Android SDK (Java) |
+| Database | PostgreSQL |
+| Cache / NoSQL | Redis |
+| API Haberleşme | RESTful JSON API |
+| Containerization | Docker & Docker Compose |
+| Versiyon Kontrol | Git & GitHub |
+| Performans Testi | k6, JMeter |
+| Mimari Yaklaşım | Mikroservis Mimarisi |
+| Tasarım Prensipleri | SOLID, OOP |
 
-## ⚙️ 4. Kullanılan Teknolojiler ve Bağımlılıklar
+---
 
-*   **Backend:** Java 21, Spring Boot 3.x, Spring Data JPA
-*   **Veritabanı:** PostgreSQL (İlişkisel Veri), Redis (Anahtar-Değer / Cache)
-*   **Mobil İstemci:** Android SDK (Java), Material Design 3, OkHttp Entegrasyonu
-*   **DevOps & CI/CD:** Docker, Docker Compose
-*   **Performans & Analiz:** Grafana k6
+# 📱 Mobil Uygulama Özellikleri
 
-## 🛠️ 5. Kurulum ve Çalıştırma Yönergesi
+- Material Design 3 tabanlı modern arayüz
+- Kullanıcı giriş sistemi
+- Kargo oluşturma ekranları
+- Gerçek zamanlı kargo takip sistemi
+- Fragment tabanlı navigation yapısı
+- REST API entegrasyonu
+- Dinamik veri akışı
 
-Projeyi tüm çevre birimleri (Veritabanları, Cache ve Mikroservisler) ile tek seferde ayağa kaldırmak için **Docker** gereklidir.
+---
 
-1. Proje dizinine terminal ile gidin:
+# ⚙️ Backend Özellikleri
+
+- Mikroservis tabanlı yapı
+- Bağımsız servis yönetimi
+- API Gateway yönlendirmesi
+- PostgreSQL veri yönetimi
+- Redis cache desteği
+- JSON tabanlı servis haberleşmesi
+- Docker container desteği
+
+---
+
+# 🗄️ Veritabanı Yapısı
+
+```mermaid
+erDiagram
+
+USERS {
+    int id
+    string username
+    string email
+    string password
+}
+
+CARGOS {
+    int id
+    string trackingNumber
+    string senderName
+    string receiverName
+    string status
+}
+
+TRACKING {
+    int id
+    string location
+    string updateTime
+}
+```
+
+---
+
+# 📊 Performans Testleri
+
+Sistem performansı hem **k6** hem de **JMeter** araçları kullanılarak test edilmiştir.
+
+## k6 Test Sonuçları
+
+| Metrik | Sonuç |
+|---|---|
+| Virtual User (VUs) | 50 |
+| Ortalama Yanıt Süresi | 4.64 ms |
+| Başarı Oranı | %100 |
+| İstek/Saniye (RPS) | 28 req/s |
+| Maksimum Hedef Süre | 500 ms |
+| Sonuç | ✅ Başarılı |
+
+---
+
+# 📈 Performans Değerlendirmesi
+
+- Sistem yüksek eşzamanlı kullanıcı yükü altında stabil çalışmıştır.
+- API yanıt süreleri hedeflenen limitlerin oldukça altında kalmıştır.
+- Redis cache kullanımı sayesinde veri erişim performansı artırılmıştır.
+- Mikroservis mimarisi sayesinde servisler bağımsız ölçeklenebilir yapıdadır.
+
+---
+
+# 🐳 Docker Yapısı
+
+Tüm servisler Docker ortamında container mantığıyla çalıştırılmaktadır.
+
+```mermaid
+flowchart TD
+
+A[docker-compose.yml]
+
+A --> B[API Gateway Container]
+A --> C[User Service Container]
+A --> D[Cargo Service Container]
+A --> E[PostgreSQL Container]
+A --> F[Redis Container]
+```
+
+---
+
+# 🚀 Kurulum ve Çalıştırma
+
+## 1. Repository Klonlama
+
 ```bash
-cd Lojistik_mobil
+git clone https://github.com/Smart-Logistics-Management-System/Smart-Logistics-Management-System.git
 ```
 
-2. Docker Compose kullanarak tüm mimariyi ayağa kaldırın:
+## 2. Docker Ortamını Başlatma
+
 ```bash
-docker-compose up --build -d
+docker-compose up --build
 ```
 
-3. Mobil uygulamayı Android Studio üzerinden `Run` butonuna basarak derleyip çalıştırabilirsiniz.
+## 3. Servislerin Çalıştığını Kontrol Etme
+
+| Servis | Port |
+|---|---|
+| API Gateway | 8080 |
+| User Service | 8081 |
+| Cargo Service | 8082 |
+| PostgreSQL | 5432 |
+| Redis | 6379 |
+
+---
+
+# 🧪 Test Araçları
+
+## k6
+
+```bash
+k6 run performance-test.js
+```
+
+# 📸 Uygulama Görselleri
+
+## Mobil Uygulama
+
+![Login](ss/login.png)
+![Dashboard](ss/dashboard.png)
+![Bildirimler](ss/bildirimler.png)
+![Liste](ss/list.png)
+![Profil](ss/profil.png)
+
+# 📂 Proje Yapısı
+
+```text
+smart-logistics/
+│
+├── api-gateway/
+├── user-service/
+├── cargo-service/
+├── mobile-app/
+├── docker-compose.yml
+├── performance-tests/
+└── README.md
+```
+
+---
+
+# 🔐 Yazılım Mühendisliği Yaklaşımları
+
+- SOLID prensipleri uygulanmıştır
+- Katmanlı mimari kullanılmıştır
+- Servis bağımsızlığı sağlanmıştır
+- Modüler kod yapısı geliştirilmiştir
+- REST standartlarına uygun API tasarlanmıştır
+
+---
+
+# 📌 Sonuç
+
+Bu proje ile modern yazılım geliştirme süreçlerinde kullanılan:
+
+- Mikroservis mimarisi
+- Docker container yapıları
+- Mobil istemci geliştirme
+- Performans testleri
+- Cache sistemleri
+- Teknik dokümantasyon süreçleri
+
+başarıyla uygulanmıştır.
+
+Sistem; yüksek performanslı, genişletilebilir ve sürdürülebilir bir lojistik platformu olarak tasarlanmıştır.
+
+---
+
+# 🎓 Ders Bilgileri
+
+| Bilgi | Açıklama |
+|---|---|
+| Ders | TBL324 - İleri Java Uygulamaları |
+| Üniversite | Kocaeli Üniversitesi |
+| Fakülte | Teknoloji Fakültesi |
+| Bölüm | Bilişim Sistemleri Mühendisliği |
+
+---
+
