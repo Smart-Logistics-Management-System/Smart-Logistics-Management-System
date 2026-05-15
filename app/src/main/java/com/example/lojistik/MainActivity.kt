@@ -19,6 +19,20 @@ class MainActivity : AppCompatActivity() {
     var currentUser: UserData? = null
         private set
 
+    /**
+     * Shared list of notifications.
+     */
+    val notificationsList = mutableListOf<Map<String, String>>()
+
+    fun addNotification(title: String, body: String) {
+        val notification = mapOf(
+            "title" to title,
+            "body" to body,
+            "time" to "Az önce"
+        )
+        notificationsList.add(0, notification) // Add to top
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)

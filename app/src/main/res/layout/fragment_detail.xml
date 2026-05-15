@@ -351,9 +351,9 @@
                     </LinearLayout>
                 </FrameLayout>
 
-                <!-- Haritada Gör (slate bg) -->
+                <!-- Teslimatı İptal Et (slate bg/red text) -->
                 <FrameLayout
-                    android:id="@+id/btnViewMap"
+                    android:id="@+id/btnCancelDelivery"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
                     android:layout_marginTop="@dimen/spacing_s"
@@ -372,14 +372,14 @@
                             android:layout_width="@dimen/icon_s"
                             android:layout_height="@dimen/icon_s"
                             android:layout_marginEnd="@dimen/spacing_s"
-                            android:src="@android:drawable/ic_menu_myplaces"
-                            app:tint="@color/gray_700" />
+                            android:src="@android:drawable/ic_delete"
+                            app:tint="#ef4444" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/btn_view_map"
-                            android:textColor="@color/gray_700"
+                            android:text="Teslimatı İptal Et"
+                            android:textColor="#ef4444"
                             android:textSize="@dimen/text_body_large"
                             android:textStyle="bold" />
                     </LinearLayout>

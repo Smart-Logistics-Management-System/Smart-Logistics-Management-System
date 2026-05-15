@@ -49,6 +49,11 @@ public class CargoRepositoryImpl implements ICargoRepository {
     public java.util.List<Cargo> findAll() {
         return jdbcTemplate.query("SELECT * FROM cargo", cargoRowMapper);
     }
+    
+    @Override
+    public void updateStatus(String trackingNumber, CargoStatus status) {
+        jdbcTemplate.update("UPDATE cargo SET status = ? WHERE tracking_number = ?", status.name(), trackingNumber);
+    }
     private final RowMapper<Cargo> cargoRowMapper = (rs, rowNum) -> {
         Cargo cargo = new Cargo();
         cargo.setId(rs.getLong("id"));

@@ -8,4 +8,5 @@ public interface ICargoRepository {
     void save(Cargo cargo);
     Optional<Cargo> findByTrackingNumber(String trackingNumber);
     java.util.List<Cargo> findAll();
+    void updateStatus(String trackingNumber, com.logistics.cargo_service.model.CargoStatus status);
 }

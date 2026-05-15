@@ -133,30 +133,38 @@ public class list extends Fragment {
     private void updateListUI(java.util.List<com.example.lojistik.model.CargoData> myCargos) {
         if (llPackageList == null) return;
         
-        if (myCargos.isEmpty()) {
+        java.util.List<com.example.lojistik.model.CargoData> activeCargos = new java.util.ArrayList<>();
+        for (com.example.lojistik.model.CargoData cargo : myCargos) {
+            if (!"DELIVERED".equalsIgnoreCase(cargo.getStatus()) && !"Teslim Edildi".equalsIgnoreCase(cargo.getStatus()) &&
+                !"CANCELLED".equalsIgnoreCase(cargo.getStatus()) && !"İptal Edildi".equalsIgnoreCase(cargo.getStatus())) {
+                activeCargos.add(cargo);
+            }
+        }
+
+        if (activeCargos.isEmpty()) {
             android.widget.TextView emptyText = new android.widget.TextView(getContext());
-            emptyText.setText("Hiç kargonuz bulunmamaktadır.");
+            emptyText.setText("Aktif kargonuz bulunmamaktadır.");
             emptyText.setTextColor(android.graphics.Color.parseColor("#6b7280"));
             emptyText.setPadding(0, 32, 0, 32);
             llPackageList.addView(emptyText);
             return;
         }
 
-        for (com.example.lojistik.model.CargoData cargo : myCargos) {
+        for (com.example.lojistik.model.CargoData cargo : activeCargos) {
             View card = LayoutInflater.from(getContext()).inflate(R.layout.item_package_card, llPackageList, false);
             
             android.widget.TextView tvCardTracking = card.findViewById(R.id.tvCardTracking);
             android.widget.TextView tvCardStatus = card.findViewById(R.id.tvCardStatus);
             android.widget.TextView tvCardWeight = card.findViewById(R.id.tvCardWeight);
             
-            if (tvCardTracking != null) tvCardTracking.setText(cargo.getTrackingNumber());
+            if (tvCardTracking != null) tvCardTracking.setText("Kargo #" + cargo.getId());
             if (tvCardStatus != null) tvCardStatus.setText(cargo.getStatus().toUpperCase());
             if (tvCardWeight != null) tvCardWeight.setText(cargo.getWeight() + "kg");
             
             card.setOnClickListener(v -> {
                 if (getActivity() instanceof MainActivity) {
                     MainActivity mainActivity = (MainActivity) getActivity();
-                    detail detailFragment = detail.newInstance(cargo.getTrackingNumber(), cargo.getStatus());
+                    detail detailFragment = detail.newInstance(cargo.getId(), cargo.getTrackingNumber(), cargo.getStatus());
                     mainActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragmentContainer, detailFragment)
                             .addToBackStack(null)

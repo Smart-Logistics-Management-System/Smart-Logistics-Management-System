@@ -15,33 +15,28 @@ import android.view.ViewGroup;
  */
 public class detail extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_ID = "cargo_id";
+    private static final String ARG_TRACKING = "tracking_number";
+    private static final String ARG_STATUS = "status";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private long cargoId;
+    private String trackingNumber;
+    private String status;
+
+    private final com.example.lojistik.network.HttpClient httpClient = new com.example.lojistik.network.HttpClient();
+    private final java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+    private final android.os.Handler mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
 
     public detail() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment detail.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static detail newInstance(String param1, String param2) {
+    public static detail newInstance(long id, String trackingNumber, String status) {
         detail fragment = new detail();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putLong(ARG_ID, id);
+        args.putString(ARG_TRACKING, trackingNumber);
+        args.putString(ARG_STATUS, status);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,8 +45,9 @@ public class detail extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            cargoId = getArguments().getLong(ARG_ID);
+            trackingNumber = getArguments().getString(ARG_TRACKING);
+            status = getArguments().getString(ARG_STATUS);
         }
     }
 
@@ -63,12 +59,14 @@ public class detail extends Fragment {
         android.widget.TextView tvPackageId = view.findViewById(R.id.tvPackageId);
         android.widget.TextView tvStatus = view.findViewById(R.id.tvStatus);
         View btnBack = view.findViewById(R.id.btnBack);
+        View btnConfirm = view.findViewById(R.id.btnConfirmDelivery);
+        View btnCancel = view.findViewById(R.id.btnCancelDelivery);
         
-        if (mParam1 != null && tvPackageId != null) {
-            tvPackageId.setText(mParam1);
+        if (tvPackageId != null) {
+            tvPackageId.setText("Kargo #" + cargoId);
         }
-        if (mParam2 != null && tvStatus != null) {
-            tvStatus.setText(mParam2);
+        if (status != null && tvStatus != null) {
+            tvStatus.setText(status);
         }
         
         if (btnBack != null) {
@@ -78,7 +76,43 @@ public class detail extends Fragment {
                 }
             });
         }
+
+        if (btnConfirm != null) {
+            btnConfirm.setOnClickListener(v -> updateStatus("DELIVERED", "Teslim Edildi", "Kargo #" + cargoId + " başarıyla teslim edildi."));
+        }
+
+        if (btnCancel != null) {
+            btnCancel.setOnClickListener(v -> updateStatus("CANCELLED", "İptal Edildi", "Kargo #" + cargoId + " iptal edildi."));
+        }
         
         return view;
+    }
+
+    private void updateStatus(String newStatus, String title, String body) {
+        executor.execute(() -> {
+            String url = com.example.lojistik.network.ApiConfig.CARGO_BASE_URL + "/api/cargo/status-update";
+            
+            // Construct JSON body
+            String jsonBody = "{\"trackingNumber\":\"" + trackingNumber + "\", \"status\":\"" + newStatus + "\"}";
+            
+            com.example.lojistik.model.ApiResponse<Void> response = httpClient.post(url, jsonBody);
+
+            mainHandler.post(() -> {
+                if (!isAdded()) return;
+
+                if (response.isSuccess()) {
+                    if (getActivity() instanceof MainActivity) {
+                        MainActivity mainActivity = (MainActivity) getActivity();
+                        mainActivity.addNotification(title, body);
+                    }
+                    android.widget.Toast.makeText(getContext(), "Durum güncellendi", android.widget.Toast.LENGTH_SHORT).show();
+                    if (getActivity() != null) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
+                } else {
+                    android.widget.Toast.makeText(getContext(), "Hata: " + response.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
     }
 }

@@ -36,4 +36,14 @@ public class CargoController {
     public ResponseEntity<java.util.List<Cargo>> getAllCargos() {
         return ResponseEntity.ok(cargoService.getAllCargos());
     }
+
+    @PostMapping("/status-update")
+    public ResponseEntity<Void> updateStatus(@RequestBody com.logistics.cargo_service.dto.UpdateStatusRequest request) {
+        try {
+            cargoService.updateCargoStatus(request.getTrackingNumber(), request.getStatus());
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

@@ -58,7 +58,46 @@ public class notifications extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notifications, container, false);
+        View view = inflater.inflate(R.layout.fragment_notifications, container, false);
+        
+        android.widget.LinearLayout llNotificationsList = view.findViewById(R.id.llNotificationsList);
+        View btnBack = view.findViewById(R.id.btnBack);
+
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                if (getActivity() != null) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            });
+        }
+
+        if (getActivity() instanceof MainActivity && llNotificationsList != null) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            java.util.List<java.util.Map<String, String>> notifs = mainActivity.getNotificationsList();
+
+            if (notifs.isEmpty()) {
+                android.widget.TextView emptyText = new android.widget.TextView(getContext());
+                emptyText.setText("Henüz bildiriminiz yok.");
+                emptyText.setTextColor(android.graphics.Color.parseColor("#6b7280"));
+                emptyText.setPadding(0, 32, 0, 32);
+                llNotificationsList.addView(emptyText);
+            } else {
+                for (java.util.Map<String, String> notif : notifs) {
+                    View card = inflater.inflate(R.layout.item_notification_card, llNotificationsList, false);
+                    
+                    android.widget.TextView tvTitle = card.findViewById(R.id.tvNotifTitle);
+                    android.widget.TextView tvBody = card.findViewById(R.id.tvNotifBody);
+                    android.widget.TextView tvTime = card.findViewById(R.id.tvNotifTime);
+                    
+                    if (tvTitle != null) tvTitle.setText(notif.get("title"));
+                    if (tvBody != null) tvBody.setText(notif.get("body"));
+                    if (tvTime != null) tvTime.setText(notif.get("time"));
+                    
+                    llNotificationsList.addView(card);
+                }
+            }
+        }
+        
+        return view;
     }
 }

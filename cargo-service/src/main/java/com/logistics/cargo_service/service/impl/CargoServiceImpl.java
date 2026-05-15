@@ -41,4 +41,10 @@ public class CargoServiceImpl implements ICargoService {
     public java.util.List<Cargo> getAllCargos() {
         return iCargoRepository.findAll();
     }
+
+    @Override
+    @CacheEvict(value = "cargos", key = "#trackingNumber")
+    public void updateCargoStatus(String trackingNumber, String status) {
+        iCargoRepository.updateStatus(trackingNumber, com.logistics.cargo_service.model.CargoStatus.valueOf(status.toUpperCase()));
+    }
 }

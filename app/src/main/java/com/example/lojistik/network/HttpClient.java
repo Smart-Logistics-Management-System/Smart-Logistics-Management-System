@@ -36,7 +36,6 @@ public class HttpClient {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("Connection", "close");
             connection.setConnectTimeout(ApiConfig.CONNECT_TIMEOUT);
             connection.setReadTimeout(ApiConfig.READ_TIMEOUT);
             connection.setDoOutput(true);
@@ -54,6 +53,7 @@ public class HttpClient {
             int responseCode = connection.getResponseCode();
 
             if (responseCode >= 200 && responseCode < 300) {
+                try { connection.getInputStream().close(); } catch (Exception ignored) {}
                 return ApiResponse.success(responseCode);
             } else {
                 String errorBody = readErrorStream(connection);
@@ -87,7 +87,6 @@ public class HttpClient {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("Connection", "close");
             connection.setConnectTimeout(ApiConfig.CONNECT_TIMEOUT);
             connection.setReadTimeout(ApiConfig.READ_TIMEOUT);
             connection.setDoOutput(true);
@@ -135,7 +134,6 @@ public class HttpClient {
 
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("Connection", "close");
             connection.setConnectTimeout(ApiConfig.CONNECT_TIMEOUT);
             connection.setReadTimeout(ApiConfig.READ_TIMEOUT);
 
@@ -144,6 +142,50 @@ public class HttpClient {
             if (responseCode >= 200 && responseCode < 300) {
                 String responseBody = readSuccessStream(connection);
                 return ApiResponse.success(responseBody, responseCode);
+            } else {
+                String errorBody = readErrorStream(connection);
+                String errorMessage = parseErrorMessage(errorBody, responseCode);
+                return ApiResponse.error(errorMessage, responseCode);
+            }
+
+        } catch (IOException e) {
+            return ApiResponse.error("Bağlantı hatası: " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Performs a PUT request.
+     */
+    public ApiResponse<Void> put(String urlString, String jsonBody) {
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL(urlString);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setConnectTimeout(ApiConfig.CONNECT_TIMEOUT);
+            connection.setReadTimeout(ApiConfig.READ_TIMEOUT);
+
+            if (jsonBody != null && !jsonBody.isEmpty()) {
+                connection.setDoOutput(true);
+                byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+                try (OutputStream os = connection.getOutputStream()) {
+                    os.write(input, 0, input.length);
+                    os.flush();
+                }
+            }
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode >= 200 && responseCode < 300) {
+                try { connection.getInputStream().close(); } catch (Exception ignored) {}
+                return ApiResponse.success(responseCode);
             } else {
                 String errorBody = readErrorStream(connection);
                 String errorMessage = parseErrorMessage(errorBody, responseCode);
@@ -216,7 +258,7 @@ public class HttpClient {
         if (statusCode == 401) {
             return "Şifre hatalı";
         } else if (statusCode == 404) {
-            return "Bu e-posta adresi kayıtlı değil";
+            return "İstenen kaynak bulunamadı (404)";
         } else if (statusCode == 409) {
             return "Bu e-posta adresi zaten kayıtlı";
         } else if (statusCode == 400) {

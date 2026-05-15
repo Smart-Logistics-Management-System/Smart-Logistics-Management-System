@@ -178,27 +178,31 @@ public class dashboard extends Fragment {
             tvTotalPackages.setText(String.valueOf(myCargos.size()));
         }
 
-        // Dummy delivered count for now
         int deliveredCount = 0;
+        List<CargoData> activeCargos = new ArrayList<>();
+
         for (CargoData cargo : myCargos) {
-            if ("Teslim Edildi".equalsIgnoreCase(cargo.getStatus())) {
+            if ("DELIVERED".equalsIgnoreCase(cargo.getStatus()) || "Teslim Edildi".equalsIgnoreCase(cargo.getStatus())) {
                 deliveredCount++;
+            } else if (!"CANCELLED".equalsIgnoreCase(cargo.getStatus()) && !"İptal Edildi".equalsIgnoreCase(cargo.getStatus())) {
+                activeCargos.add(cargo);
             }
         }
+
         if (tvDeliveredPackages != null) {
             tvDeliveredPackages.setText(String.valueOf(deliveredCount));
         }
 
-        if (myCargos.isEmpty()) {
+        if (activeCargos.isEmpty()) {
             TextView emptyText = new TextView(getContext());
-            emptyText.setText("Hiç kargonuz bulunmamaktadır.");
+            emptyText.setText("Aktif kargonuz bulunmamaktadır.");
             emptyText.setTextColor(Color.parseColor("#6b7280"));
             emptyText.setPadding(0, 32, 0, 32);
             llActivePackages.addView(emptyText);
             return;
         }
 
-        for (CargoData cargo : myCargos) {
+        for (CargoData cargo : activeCargos) {
             addCargoCard(cargo);
         }
     }
@@ -267,7 +271,7 @@ public class dashboard extends Fragment {
         card.setOnClickListener(v -> {
             if (getActivity() instanceof MainActivity) {
                 MainActivity mainActivity = (MainActivity) getActivity();
-                detail detailFragment = detail.newInstance(cargo.getTrackingNumber(), cargo.getStatus());
+                detail detailFragment = detail.newInstance(cargo.getId(), cargo.getTrackingNumber(), cargo.getStatus());
                 mainActivity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, detailFragment)
                         .addToBackStack(null)
