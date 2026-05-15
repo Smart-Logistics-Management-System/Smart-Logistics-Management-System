@@ -31,4 +31,9 @@ public class CargoController {
                 .map(cargo -> ResponseEntity.ok(cargo))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping
+    public ResponseEntity<java.util.List<Cargo>> getAllCargos() {
+        return ResponseEntity.ok(cargoService.getAllCargos());
+    }
 }

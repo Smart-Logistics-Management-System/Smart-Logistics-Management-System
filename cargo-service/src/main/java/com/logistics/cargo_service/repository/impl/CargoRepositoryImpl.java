@@ -44,6 +44,11 @@ public class CargoRepositoryImpl implements ICargoRepository {
     public Optional<Cargo> findByTrackingNumber(String trackingNumber) {
         return jdbcTemplate.query(FIND_BY_TRACKING,cargoRowMapper,trackingNumber).stream().findFirst();
     }
+    
+    @Override
+    public java.util.List<Cargo> findAll() {
+        return jdbcTemplate.query("SELECT * FROM cargo", cargoRowMapper);
+    }
     private final RowMapper<Cargo> cargoRowMapper = (rs, rowNum) -> {
         Cargo cargo = new Cargo();
         cargo.setId(rs.getLong("id"));

@@ -117,7 +117,7 @@ public class AdminDashboardFragment extends Fragment {
             JSONObject obj = jsonArray.getJSONObject(i);
             String role = obj.optString("role", "");
 
-            if ("USER".equalsIgnoreCase(role)) {
+            if ("COURIER".equalsIgnoreCase(role)) {
                 UserData user = new UserData(
                         obj.getLong("id"),
                         obj.getString("firstName"),

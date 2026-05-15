@@ -36,13 +36,16 @@ public class HttpClient {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("Connection", "close");
             connection.setConnectTimeout(ApiConfig.CONNECT_TIMEOUT);
             connection.setReadTimeout(ApiConfig.READ_TIMEOUT);
             connection.setDoOutput(true);
 
+            byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+            connection.setFixedLengthStreamingMode(input.length);
+
             // Write request body
             try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
                 os.flush();
             }
@@ -84,12 +87,15 @@ public class HttpClient {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("Connection", "close");
             connection.setConnectTimeout(ApiConfig.CONNECT_TIMEOUT);
             connection.setReadTimeout(ApiConfig.READ_TIMEOUT);
             connection.setDoOutput(true);
 
+            byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+            connection.setFixedLengthStreamingMode(input.length);
+
             try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
                 os.flush();
             }
@@ -129,6 +135,7 @@ public class HttpClient {
 
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("Connection", "close");
             connection.setConnectTimeout(ApiConfig.CONNECT_TIMEOUT);
             connection.setReadTimeout(ApiConfig.READ_TIMEOUT);
 

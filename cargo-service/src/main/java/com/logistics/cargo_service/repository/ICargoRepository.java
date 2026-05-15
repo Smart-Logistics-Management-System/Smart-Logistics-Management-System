@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface ICargoRepository {
     void save(Cargo cargo);
     Optional<Cargo> findByTrackingNumber(String trackingNumber);
+    java.util.List<Cargo> findAll();
 }

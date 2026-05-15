@@ -26,7 +26,7 @@ public final class ApiConfig {
     public static final String LOGIN_ENDPOINT = "/api/users/login";
 
     // ─── Cargo Service Endpoints ────────────────────────────────
-    public static final String CARGOS_ENDPOINT = "/api/cargos";
+    public static final String CARGOS_ENDPOINT = "/api/cargo";
 
     // ─── Timeouts (milliseconds) ────────────────────────────────
     public static final int CONNECT_TIMEOUT = 10_000;

@@ -36,4 +36,9 @@ public class CargoServiceImpl implements ICargoService {
         iCargoRepository.save(cargo);
         return cargo;
     }
+
+    @Override
+    public java.util.List<Cargo> getAllCargos() {
+        return iCargoRepository.findAll();
+    }
 }

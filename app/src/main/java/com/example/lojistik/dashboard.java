@@ -138,7 +138,7 @@ public class dashboard extends Fragment {
                         List<CargoData> myCargos = parseAndFilterCargos(response.getData());
                         updateDashboardUI(myCargos);
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Kargolar okunurken hata oluştu.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Hata: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(getContext(), "Bağlantı hatası: " + response.getMessage(), Toast.LENGTH_SHORT).show();
