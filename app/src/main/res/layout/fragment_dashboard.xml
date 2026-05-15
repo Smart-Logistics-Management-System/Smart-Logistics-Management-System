@@ -83,7 +83,7 @@
                         android:layout_height="@dimen/icon_m"
                         android:layout_marginBottom="@dimen/spacing_s"
                         android:alpha="0.8"
-                        android:src="@android:drawable/ic_menu_send"
+                        android:src="@android:drawable/ic_menu_myplaces"
                         app:tint="@color/white" />
 
                     <TextView
@@ -119,8 +119,8 @@
                         android:layout_width="@dimen/icon_m"
                         android:layout_height="@dimen/icon_m"
                         android:layout_marginBottom="@dimen/spacing_s"
-                        android:alpha="0.8"
-                        android:src="@android:drawable/ic_menu_send"
+                        android:alpha="1.0"
+                        android:src="@android:drawable/checkbox_on_background"
                         app:tint="@color/white" />
 
                     <TextView
