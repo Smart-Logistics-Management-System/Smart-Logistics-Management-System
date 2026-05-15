@@ -115,6 +115,44 @@ public class HttpClient {
     }
 
     /**
+     * Performs a GET request and returns the response body as String data.
+     * Used for fetching data like the user list.
+     *
+     * @param urlString The full URL to send the GET request to
+     * @return ApiResponse containing the response body string on success
+     */
+    public ApiResponse<String> getWithResponse(String urlString) {
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL(urlString);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setConnectTimeout(ApiConfig.CONNECT_TIMEOUT);
+            connection.setReadTimeout(ApiConfig.READ_TIMEOUT);
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode >= 200 && responseCode < 300) {
+                String responseBody = readSuccessStream(connection);
+                return ApiResponse.success(responseBody, responseCode);
+            } else {
+                String errorBody = readErrorStream(connection);
+                String errorMessage = parseErrorMessage(errorBody, responseCode);
+                return ApiResponse.error(errorMessage, responseCode);
+            }
+
+        } catch (IOException e) {
+            return ApiResponse.error("Bağlantı hatası: " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
      * Reads the success response body from the connection's input stream.
      */
     private String readSuccessStream(HttpURLConnection connection) {

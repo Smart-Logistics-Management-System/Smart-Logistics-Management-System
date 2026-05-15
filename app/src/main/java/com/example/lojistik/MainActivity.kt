@@ -81,11 +81,17 @@ class MainActivity : AppCompatActivity() {
     /**
      * Called from LoginFragment after successful login.
      * Shows the bottom navigation and loads the dashboard.
+     * For ADMINs, hides bottom nav and shows Admin Dashboard.
      */
     fun navigateToMain() {
-        bottomNavigation.visibility = View.VISIBLE
-        bottomNavigation.selectedItemId = R.id.nav_dashboard
-        loadFragment(dashboard())
+        if (currentUser?.role == "ADMIN") {
+            bottomNavigation.visibility = View.GONE
+            loadFragment(AdminDashboardFragment())
+        } else {
+            bottomNavigation.visibility = View.VISIBLE
+            bottomNavigation.selectedItemId = R.id.nav_dashboard
+            loadFragment(dashboard())
+        }
     }
 
     /**

@@ -19,10 +19,14 @@ public final class ApiConfig {
      * For physical device, use your computer's local IP address.
      */
     public static final String BASE_URL = "http://10.0.2.2:8081";
+    public static final String CARGO_BASE_URL = "http://10.0.2.2:8082";
 
     // ─── User Service Endpoints ─────────────────────────────────
     public static final String USERS_ENDPOINT = "/api/users";
     public static final String LOGIN_ENDPOINT = "/api/users/login";
+
+    // ─── Cargo Service Endpoints ────────────────────────────────
+    public static final String CARGOS_ENDPOINT = "/api/cargos";
 
     // ─── Timeouts (milliseconds) ────────────────────────────────
     public static final int CONNECT_TIMEOUT = 10_000;

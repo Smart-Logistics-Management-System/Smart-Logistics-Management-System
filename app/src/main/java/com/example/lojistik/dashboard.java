@@ -58,7 +58,36 @@ public class dashboard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        if (getActivity() instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            if (mainActivity.getCurrentUser() != null) {
+                // Update greeting name
+                android.widget.TextView tvGreeting = view.findViewById(R.id.tvGreeting);
+                if (tvGreeting != null) {
+                    tvGreeting.setText(mainActivity.getCurrentUser().getFirstName() + "!");
+                }
+
+                // Show Admin Add Cargo Button if role is ADMIN
+                View fabAddCargo = view.findViewById(R.id.fabAddCargo);
+                if (fabAddCargo != null) {
+                    if ("ADMIN".equalsIgnoreCase(mainActivity.getCurrentUser().getRole())) {
+                        fabAddCargo.setVisibility(View.VISIBLE);
+                        fabAddCargo.setOnClickListener(v -> {
+                            // Navigate to Add Cargo screen
+                            mainActivity.getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.fragmentContainer, new AdminAddCargoFragment())
+                                    .addToBackStack(null)
+                                    .commit();
+                        });
+                    } else {
+                        fabAddCargo.setVisibility(View.GONE);
+                    }
+                }
+            }
+        }
+
+        return view;
     }
 }
