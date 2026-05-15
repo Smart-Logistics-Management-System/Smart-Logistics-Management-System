@@ -87,9 +87,10 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tvTotalPackages"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="30sp"
                         android:textStyle="bold" />
@@ -123,9 +124,10 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tvDeliveredPackages"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="8"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="30sp"
                         android:textStyle="bold" />
@@ -200,120 +202,12 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- ─── Package Card 1 (In Transit) ─── -->
+            <!-- Dynamic container for Active Packages -->
             <LinearLayout
-                android:id="@+id/cardPackage1"
+                android:id="@+id/llActivePackages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_m"
-                android:background="@drawable/bg_package_card"
-                android:elevation="@dimen/elevation_xs"
-                android:gravity="center_vertical"
-                android:padding="@dimen/spacing_m"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
-
-                <!-- Blue-50 rounded icon -->
-                <FrameLayout
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_icon_box_blue"
-                    android:layout_marginEnd="@dimen/spacing_m">
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_m"
-                        android:layout_height="@dimen/icon_m"
-                        android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_send"
-                        app:tint="@color/blue_600" />
-                </FrameLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TRK9921"
-                        android:textColor="@color/gray_800"
-                        android:textSize="@dimen/text_body"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="İstanbul · 12 May, 14:00"
-                        android:textColor="@color/gray_500"
-                        android:textSize="@dimen/text_xs" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@android:drawable/ic_media_play"
-                    app:tint="@color/gray_300" />
-            </LinearLayout>
-
-            <!-- ─── Package Card 2 (Pending) ─── -->
-            <LinearLayout
-                android:id="@+id/cardPackage2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_m"
-                android:background="@drawable/bg_package_card"
-                android:elevation="@dimen/elevation_xs"
-                android:gravity="center_vertical"
-                android:padding="@dimen/spacing_m"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
-
-                <FrameLayout
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_icon_box_blue"
-                    android:layout_marginEnd="@dimen/spacing_m">
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_m"
-                        android:layout_height="@dimen/icon_m"
-                        android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_send"
-                        app:tint="@color/blue_600" />
-                </FrameLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TRK7734"
-                        android:textColor="@color/gray_800"
-                        android:textSize="@dimen/text_body"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="İzmir · Tomorrow"
-                        android:textColor="@color/gray_500"
-                        android:textSize="@dimen/text_xs" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@android:drawable/ic_media_play"
-                    app:tint="@color/gray_300" />
-            </LinearLayout>
+                android:orientation="vertical" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
