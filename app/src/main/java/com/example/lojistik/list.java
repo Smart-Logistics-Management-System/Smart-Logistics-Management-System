@@ -24,19 +24,16 @@ public class list extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private android.widget.LinearLayout llPackageList;
+    private final com.example.lojistik.network.HttpClient httpClient = new com.example.lojistik.network.HttpClient();
+    private final java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+    private final android.os.Handler mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private com.example.lojistik.model.UserData currentUser;
+
     public list() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment list.
-     */
-    // TODO: Rename and change types and number of parameters
     public static list newInstance(String param1, String param2) {
         list fragment = new list();
         Bundle args = new Bundle();
@@ -60,38 +57,7 @@ public class list extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         
-        View card1 = view.findViewById(R.id.cardPackage1);
-        View card2 = view.findViewById(R.id.cardPackage2);
-        View card3 = view.findViewById(R.id.cardPackage3);
-        
-        android.view.View.OnClickListener listener = v -> {
-            if (getActivity() instanceof MainActivity) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                String trackingNumber = "";
-                String status = "";
-                
-                if (v.getId() == R.id.cardPackage1) {
-                    trackingNumber = "TRK9921";
-                    status = "IN TRANSIT";
-                } else if (v.getId() == R.id.cardPackage2) {
-                    trackingNumber = "TRK8812";
-                    status = "DELIVERED";
-                } else if (v.getId() == R.id.cardPackage3) {
-                    trackingNumber = "TRK7734";
-                    status = "PENDING";
-                }
-                
-                detail detailFragment = detail.newInstance(trackingNumber, status);
-                mainActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, detailFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        };
-        
-        if (card1 != null) card1.setOnClickListener(listener);
-        if (card2 != null) card2.setOnClickListener(listener);
-        if (card3 != null) card3.setOnClickListener(listener);
+        llPackageList = view.findViewById(R.id.llPackageList);
         
         View btnBack = view.findViewById(R.id.btnBack);
         if (btnBack != null) {
@@ -102,6 +68,103 @@ public class list extends Fragment {
             });
         }
         
+        if (getActivity() instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            currentUser = mainActivity.getCurrentUser();
+
+            if (currentUser != null) {
+                fetchCargos();
+            }
+        }
+        
         return view;
+    }
+    
+    private void fetchCargos() {
+        if (llPackageList != null) llPackageList.removeAllViews();
+
+        executor.execute(() -> {
+            String url = com.example.lojistik.network.ApiConfig.CARGO_BASE_URL + com.example.lojistik.network.ApiConfig.CARGOS_ENDPOINT;
+            com.example.lojistik.model.ApiResponse<String> response = httpClient.getWithResponse(url);
+
+            mainHandler.post(() -> {
+                if (!isAdded() || getContext() == null) {
+                    return; 
+                }
+                
+                if (response.isSuccess() && response.getData() != null) {
+                    try {
+                        java.util.List<com.example.lojistik.model.CargoData> myCargos = parseAndFilterCargos(response.getData());
+                        updateListUI(myCargos);
+                    } catch (Exception e) {
+                        android.widget.Toast.makeText(getContext(), "Hata: " + e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    android.widget.Toast.makeText(getContext(), "Bağlantı hatası: " + response.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+    }
+
+    private java.util.List<com.example.lojistik.model.CargoData> parseAndFilterCargos(String jsonString) throws Exception {
+        java.util.List<com.example.lojistik.model.CargoData> cargos = new java.util.ArrayList<>();
+        if (jsonString == null || jsonString.trim().isEmpty()) {
+            return cargos;
+        }
+        org.json.JSONArray jsonArray = new org.json.JSONArray(jsonString);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            org.json.JSONObject obj = jsonArray.getJSONObject(i);
+            
+            long id = obj.optLong("id", 0);
+            String trackingNumber = obj.optString("trackingNumber", "TRK" + id);
+            long senderId = obj.optLong("senderId", 0);
+            long receiverId = obj.optLong("receiverId", 0);
+            double weight = obj.optDouble("weight", 0.0);
+            String status = obj.optString("status", "Bekliyor");
+
+            if (currentUser != null && (receiverId == currentUser.getId() || senderId == currentUser.getId() || "ADMIN".equalsIgnoreCase(currentUser.getRole()))) {
+                cargos.add(new com.example.lojistik.model.CargoData(id, trackingNumber, senderId, receiverId, weight, status));
+            }
+        }
+        return cargos;
+    }
+
+    private void updateListUI(java.util.List<com.example.lojistik.model.CargoData> myCargos) {
+        if (llPackageList == null) return;
+        
+        if (myCargos.isEmpty()) {
+            android.widget.TextView emptyText = new android.widget.TextView(getContext());
+            emptyText.setText("Hiç kargonuz bulunmamaktadır.");
+            emptyText.setTextColor(android.graphics.Color.parseColor("#6b7280"));
+            emptyText.setPadding(0, 32, 0, 32);
+            llPackageList.addView(emptyText);
+            return;
+        }
+
+        for (com.example.lojistik.model.CargoData cargo : myCargos) {
+            View card = LayoutInflater.from(getContext()).inflate(R.layout.item_package_card, llPackageList, false);
+            
+            android.widget.TextView tvCardTracking = card.findViewById(R.id.tvCardTracking);
+            android.widget.TextView tvCardStatus = card.findViewById(R.id.tvCardStatus);
+            android.widget.TextView tvCardWeight = card.findViewById(R.id.tvCardWeight);
+            
+            if (tvCardTracking != null) tvCardTracking.setText(cargo.getTrackingNumber());
+            if (tvCardStatus != null) tvCardStatus.setText(cargo.getStatus().toUpperCase());
+            if (tvCardWeight != null) tvCardWeight.setText(cargo.getWeight() + "kg");
+            
+            card.setOnClickListener(v -> {
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    detail detailFragment = detail.newInstance(cargo.getTrackingNumber(), cargo.getStatus());
+                    mainActivity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainer, detailFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+            
+            llPackageList.addView(card);
+        }
     }
 }

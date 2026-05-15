@@ -149,6 +149,9 @@ public class dashboard extends Fragment {
 
     private List<CargoData> parseAndFilterCargos(String jsonString) throws Exception {
         List<CargoData> cargos = new ArrayList<>();
+        if (jsonString == null || jsonString.trim().isEmpty()) {
+            return cargos;
+        }
         JSONArray jsonArray = new JSONArray(jsonString);
 
         for (int i = 0; i < jsonArray.length(); i++) {
