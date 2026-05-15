@@ -68,6 +68,12 @@ public class UserController  {
         return ResponseEntity.ok(mapToResponse(user));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
     private UserResponse mapToResponse(User user) {
         if (user == null) return null;
 

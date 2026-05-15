@@ -58,19 +58,61 @@ public class profile extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        // Find the logout button and set click listener
+        android.widget.TextView tvName = view.findViewById(R.id.tvProfileName);
+        android.widget.TextView tvRole = view.findViewById(R.id.tvProfileRole);
         View btnLogout = view.findViewById(R.id.btnLogout);
-        if (btnLogout != null) {
-            btnLogout.setOnClickListener(v -> {
-                if (getActivity() instanceof MainActivity) {
-                    ((MainActivity) getActivity()).logout();
-                }
-            });
+        View btnDeleteProfile = view.findViewById(R.id.btnDeleteProfile);
+
+        if (getActivity() instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            com.example.lojistik.model.UserData user = mainActivity.getCurrentUser();
+            if (user != null) {
+                if (tvName != null) tvName.setText(user.getFirstName() + " " + user.getLastName());
+                if (tvRole != null) tvRole.setText(user.getRole() + " · " + user.getEmail());
+            }
+
+            if (btnLogout != null) {
+                btnLogout.setOnClickListener(v -> mainActivity.logout());
+            }
+
+            if (btnDeleteProfile != null) {
+                btnDeleteProfile.setOnClickListener(v -> {
+                    if (user == null) return;
+                    
+                    new android.app.AlertDialog.Builder(getContext())
+                        .setTitle("Hesabı Sil")
+                        .setMessage("Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.")
+                        .setPositiveButton("Evet, Sil", (dialog, which) -> deleteAccount(user.getId()))
+                        .setNegativeButton("Vazgeç", null)
+                        .show();
+                });
+            }
         }
 
         return view;
+    }
+
+    private void deleteAccount(long userId) {
+        java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+        android.os.Handler mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+        com.example.lojistik.network.HttpClient httpClient = new com.example.lojistik.network.HttpClient();
+
+        executor.execute(() -> {
+            String url = com.example.lojistik.network.ApiConfig.BASE_URL + "/api/users/" + userId;
+            com.example.lojistik.model.ApiResponse<Void> response = httpClient.delete(url);
+
+            mainHandler.post(() -> {
+                if (response.isSuccess()) {
+                    android.widget.Toast.makeText(getContext(), "Hesabınız silindi.", android.widget.Toast.LENGTH_SHORT).show();
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).logout();
+                    }
+                } else {
+                    android.widget.Toast.makeText(getContext(), "Hata: " + response.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
     }
 }
